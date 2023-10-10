@@ -1,0 +1,65 @@
+{
+    "reclamos": [
+      {
+        "Descripcion": "Estoy teniendo problemas con la entrega de un libro",
+        "area": "Biblioteca",
+        "fecha": "19/02/2020",
+        "estado": "Pendiente"
+      },
+      {
+        "Descripcion": "No he recibido el material de lectura para el curso",
+        "area": "Administración",
+        "fecha": "05/07/2020",
+        "estado": "En proceso"
+      },
+      {
+        "Descripcion": "El libro que recibí está en mal estado",
+        "area": "Biblioteca",
+        "fecha": "12/09/2020",
+        "estado": "Resuelto"
+      },
+      {
+        "Descripcion": "No puedo acceder a la plataforma en línea de la biblioteca",
+        "area": "Tecnología",
+        "fecha": "02/11/2020",
+        "estado": "Pendiente"
+      },
+      {
+        "Descripcion": "Mi solicitud de extensión de préstamo no ha sido atendida",
+        "area": "Biblioteca",
+        "fecha": "15/01/2021",
+        "estado": "En proceso"
+      },
+      {
+        "Descripcion": "Se realizó un cargo incorrecto por retraso en la devolución",
+        "area": "Finanzas",
+        "fecha": "22/03/2021",
+        "estado": "Resuelto"
+      },
+      {
+        "Descripcion": "No encuentro el libro que reservé en la estantería indicada",
+        "area": "Biblioteca",
+        "fecha": "09/06/2021",
+        "estado": "Pendiente"
+      },
+      {
+        "Descripcion": "El libro en línea que necesito tiene un enlace roto",
+        "area": "Tecnología",
+        "fecha": "18/08/2021",
+        "estado": "En proceso"
+      },
+      {
+        "Descripcion": "No recibí notificaciones sobre la fecha de devolución",
+        "area": "Biblioteca",
+        "fecha": "05/10/2021",
+        "estado": "Resuelto"
+      },
+      {
+        "Descripcion": "La respuesta a mi reclamo anterior es insatisfactoria",
+        "area": "Atención al Cliente",
+        "fecha": "30/12/2021",
+        "estado": "Pendiente"
+      }
+    ]
+  }
+  

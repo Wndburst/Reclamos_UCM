@@ -1,0 +1,44 @@
+{
+  "FAQ": [
+    {
+      "question": "¿Como funciona la toma de ramos?",
+      "answer": "Aceptamos tarjetas de crédito, débito y PayPal como métodos de pago."
+    },
+    {
+      "question": "¿Donde puedo pagar la mensualidad?",
+      "answer": "Sí, puedes cancelar tu pedido antes de que haya sido enviado. Comunícate con nuestro servicio al cliente para más detalles."
+    },
+    {
+      "question": "¿Donde puedo reservar salas de estudio?",
+      "answer": "Sí, realizamos envíos a nivel internacional. El tiempo de entrega puede variar según la ubicación."
+    },
+    {
+      "question": "¿Donde puedo reservar el gimmnasio?",
+      "answer": "Sí, aceptamos devoluciones dentro de los 30 días posteriores a la compra. El producto debe estar en condiciones originales."
+    },
+    {
+      "question": "¿Como puedo conseguir mas creidtos?",
+      "answer": "Puedes encontrar tu historial de pedidos en la sección 'Mi Cuenta' una vez que hayas iniciado sesión."
+    },
+    {
+      "question": "¿Donde puedo pedir el padron?",
+      "answer": "Sí, nuestro servicio al cliente está disponible los sábados y domingos de 9:00 AM a 6:00 PM, hora local."
+    },
+    {
+      "question": "¿Cómo puedo rastrear mi pedido?",
+      "answer": "Una vez que tu pedido haya sido enviado, recibirás un correo electrónico con un enlace de seguimiento para rastrear tu paquete."
+    },
+    {
+      "question": "¿Ofrecen descuentos para compras al por mayor?",
+      "answer": "Sí, ofrecemos descuentos especiales para compras al por mayor. Comunícate con nuestro equipo de ventas para más información."
+    },
+    {
+      "question": "¿Puedo cambiar la dirección de envío después de realizar el pedido?",
+      "answer": "Si el pedido aún no ha sido enviado, puedes contactarnos para cambiar la dirección de envío."
+    },
+    {
+      "question": "¿Cómo puedo contactar al servicio al cliente?",
+      "answer": "Puedes contactarnos a través de nuestro formulario en línea o llamando a nuestro número de servicio al cliente en horario laboral."
+    }
+  ]
+}

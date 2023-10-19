@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import Logo from "../img/Logo.png"
-import Navitems from './Navitems'
+import Logo from "../../img/Logo.png"
+import Navitems from './NavitemsAdmin';
 
 export default function NavBar() {
 

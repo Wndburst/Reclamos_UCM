@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import Datos from '../components/Datos'
-import reclamosdata from '../json/reclamos.json'
-import FPerfil from "../img/perfil.jpg"
+import Datos from '../../components/Datos'
+import reclamosdata from '../../json/reclamos.json'
+import FPerfil from "../../img/perfil.jpg"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import NavBar from '../../components/NavBar'
 axios.defaults.withCredentials = true;
 
 export default function Profile() {
   
   const [auth, setAuth] = useState(false);
   const [message, setMessage] = useState('')
-  const [name, setName] = useState('')
+  const [userid, setUserId] = useState('')
+  const [username, setUserName] = useState('')
+  const [useremail, setUserEmail] = useState('')
+  const [usertype, setUserType] = useState('')
   const navigate = useNavigate();
 
 
@@ -18,9 +22,13 @@ export default function Profile() {
   useEffect(() => {
     axios.get('http://localhost:8000')
       .then(res => {
+        console.log(res.data.UserID)
         if (res.data.Status === "Success") {
           setAuth(true);
-          setName(res.data.name);
+          setUserId(res.data.userid);
+          setUserName(res.data.username);
+          setUserEmail(res.data.useremail);
+          setUserType(res.data.usertype);
         } else {
           setAuth(false);
           setMessage(res.data.Error);
@@ -37,10 +45,10 @@ export default function Profile() {
   }
 
   return (
-    <div className='flex'>
+    <div>
+      <NavBar/>
       { auth ?
-      <div>
-        <div className='flex'>
+      <div className='flex'>
         <div className='CPerfil'>
           <div className='flex-1'>
             <div>
@@ -48,9 +56,9 @@ export default function Profile() {
             </div>
   
             <div className='DPerfil'>
-              <p>Thomas Andreus Riffo Araya</p>
-              <p>20.759.841-0</p>
-              <p>Thomas@alu.ucm.cl</p>
+              <p>{username}</p>
+              <p>{userid}</p>
+              <p>{useremail}</p>
               <p>Regular en INGENIERÍA CIVIL INFORMÁTICA</p>
             </div>
           </div>
@@ -63,13 +71,16 @@ export default function Profile() {
               </ul>
             </div>
           </div>
-        </div>
+
+
+
       </div>
-        
-        <div className='misReclamos'>
+
+      <div>
           <h2 className='lsreclamos'>Mis reclamos</h2>
           <Datos reclamos={reclamosdata.reclamos} />
-        </div>
+      </div>
+
       </div>
       :
       <div>
@@ -78,6 +89,10 @@ export default function Profile() {
         <Link to="/login">Login</Link>
       </div>
     }
+
+
+
+
     </div>
   )
 }

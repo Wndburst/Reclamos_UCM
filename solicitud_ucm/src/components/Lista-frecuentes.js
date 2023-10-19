@@ -21,16 +21,27 @@ function ListaFrecuentes({ filter }) {
   );
 
   return (
-      <div>
-        <ul>
-          {filteredFaqs.map((faq, index) => (
-            <li key={index}>
-              <h3 onClick={() => toggleItem(index)}>{faq.question}</h3>
-              {expandedItems[index] && <p>{faq.answer}</p>}
-            </li>
-          ))}
-        </ul>
-      </div>
+<div>
+  <ul>
+    {filteredFaqs.map((faq, index) => (
+      <li key={index}>
+        <button
+          style={{ 
+            border: 'none', 
+            background: 'none', 
+            cursor: 'pointer', 
+            padding: 0,
+            margin: 0,
+          }}
+          onClick={() => toggleItem(index)}
+        >
+          <h3>{faq.question}</h3>
+        </button>
+        {expandedItems[index] && <p>{faq.answer}</p>}
+      </li>
+    ))}
+  </ul>
+</div>
   );
 }
 

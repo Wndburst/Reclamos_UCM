@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 export default function Navitems() {
   const [isNavOpen, setIsNavOpen] = useState(false);
-
+  const navigate = useNavigate();
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
   };
+
+  const handleDelete = () =>{
+    axios.get('http://localhost:8000/logout')
+    .then(res => {
+      navigate('/login', { replace: true }); 
+    }).catch(err => console.log(err));
+  }
 
   return (
     <div className={`navitems ${isNavOpen ? 'open' : ''}`}>
@@ -16,15 +23,7 @@ export default function Navitems() {
         <span className="bar"></span>
       </button>
       <ul>
-        <li>
-          <Link to="/home">Inicio</Link>
-        </li>
-        <li>
-          <Link to="/frecuentes">FAQ</Link>
-        </li>
-        <li>
-          <Link to="/">Perfil</Link>
-        </li>
+        <li><Link  onClick={handleDelete}>Cerrar sesion</Link></li>
       </ul>
     </div>
   );

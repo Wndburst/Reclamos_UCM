@@ -1,8 +1,11 @@
-/*import React from 'react'
-
+import React from 'react'
+import NavBar from './NavBar'
 export default function Crear_r() {
   return (
     <div>
+        <NavBar/>
+    <div>
+        
         <h1>Publicar un reclamo</h1>
     <form>
         <ul>
@@ -39,58 +42,8 @@ export default function Crear_r() {
     </form>
         
     </div>
+    </div>
   )
 }
-*/
-
-import axios from 'axios'
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-
-const URI = 'http://localhost:8000/reclamos'
-
-const Crear_r = () =>{
-    const [reclamos, setReclamos] = useState([])
-    useEffect(()=>{
-        getUsers()
-    }, [])
-
-    // procedimiento para mostrar todo
-
-    const getUsers = async () => {
-        const res = await axios.get(URI)
-        setReclamos(res.data)
-    }
 
 
-    return(
-        <div className='container'>
-            <table className='table'>
-                <thead className=''>
-                    <tr>
-                        <th>ID</th>
-                        <th>Descripcion</th>
-                        <th>Area</th>
-                        <th>Fecha</th>
-                        <th>Estado</th>
-                    </tr>
-
-                </thead>
-                <tbody>
-                    {reclamos.map ((reclamos) => (
-                        <tr key={reclamos.ID}>
-                            <td>{reclamos.ID}</td>
-                            <td>{reclamos.Descripcion}</td>
-                            <td>{reclamos.Area}</td>
-                            <td>{reclamos.Fecha}</td>
-                            <td>{reclamos.Estado}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-
-    )
-}
-
-export default Crear_r

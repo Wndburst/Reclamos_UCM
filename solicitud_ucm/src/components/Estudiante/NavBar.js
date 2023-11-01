@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import Logo from "../img/Logo.png"
+import Logo from "../../img/Logo.png"
 import Navitems from './Navitems'
 
 export default function NavBar() {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import faqsData from '../json/FAQ.json';
+import faqsData from '../../json/FAQ.json';
 
 function ListaFrecuentes({ filter }) {
   const [faqs, setFaqs] = useState([]);

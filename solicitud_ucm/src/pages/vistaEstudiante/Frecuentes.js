@@ -1,6 +1,6 @@
 import React from 'react'
-import PreguntasFrecuentes from '../../components/BuscadorFiltro'
-import NavBar from '../../components/NavBar'
+import PreguntasFrecuentes from '../../components/Estudiante/BuscadorFiltro'
+import NavBar from '../../components/Estudiante/NavBar'
 export default function Frecuentes() {
   return (
     <div>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import Datos from '../../components/Datos'
+import Datos from '../../components/Estudiante/Datos'
 import reclamosdata from '../../json/reclamos.json'
 import FPerfil from "../../img/perfil.jpg"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import NavBar from '../../components/NavBar'
+import NavBar from '../../components/Estudiante/NavBar'
 axios.defaults.withCredentials = true;
 
 export default function Profile() {

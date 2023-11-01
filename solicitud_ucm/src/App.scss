@@ -166,14 +166,13 @@ $gray: #c4ccde;
 
 //Filtrador
 
-.sidebar{
+.sidebar-estudiante{
   height: auto;
   width: 20rem;
   border: 1px solid $gray;
   /*background-color: #01a1dd;*/
   background-color: rgb(0, 85, 169);
   margin: 0px 1rem;
-  margin-top: 2rem;
   margin-bottom: 1rem;
 
   /*rgb(0, 85, 169);*/
@@ -316,12 +315,14 @@ $gray: #c4ccde;
 // -------------- RECLAMO--------------------
 .reclamo-general{
   box-shadow: 5px 10px 18px #888888;
-  ul{
+  width: auto;
+  
+  ul{ 
     list-style-type: none;
     padding: 0;
     text-align: start;
     li{
-      padding: 2rem;
+      padding: 3rem;
       border-bottom: 1px solid gray;
       h3{
         margin-bottom: 2rem;
@@ -329,6 +330,13 @@ $gray: #c4ccde;
     }
   }
 }
+
+.noFoundfilter{
+  padding: 6rem;
+  font-size: 3rem;
+}
+
+
 
 
 
@@ -466,39 +474,47 @@ $gray: #c4ccde;
 
 
 // --------- Crear un reclamo -----
+.crear-rek{
+  padding: 0 2rem;
+  margin-top: 4rem;
+}
 
-/*
-.box-crear-reclamo{
-  box-shadow: 5px 10px 18px #888888;
-  justify-content: center;
+.form-crear-reclamo{
+  display: flex;
+  flex-direction: column;
   text-align: center;
-  h1{
-    padding: 2rem;
-    margin: 2rem 0;
-  }
+  padding: 2rem;
+  box-shadow: 5px 10px 18px #888888;
 
-  form{
-    border: 1px solid red;
-
-    ul{
-      list-style-type: none;
-      padding: 2rem;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-
-      li{
-        padding: 1rem 2rem;
-        
-      }
-      
+  .reclamo-titulo-input{
+    font-weight: 600;
+    input{
+      width: 70%;
     }
   }
+
+  .reclamo-desc-input{
+  font-weight: 600;
+  textarea{
+    width:70%;
+    height: 10rem;
+    resize: none;
+  }
+
+  .button-reclamo{
+    width: 70%;
+  }
+
 }
-*/
+}
 
-
-
+.flex-vis-cat{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 70%;
+  margin-left: 15%;
+}
 
 
 
@@ -507,6 +523,43 @@ $gray: #c4ccde;
 
 // Administrador shipy
 
+
+
+
+.sidebar-admin{
+  height: 100vh;
+  width: 18rem;
+  background-color: rgb(0, 85, 169);
+
+  p{
+    text-align: center;
+    color: $light;
+    font-weight: 600;
+    padding: 2rem;
+  }
+  ul{
+    list-style: none;
+    padding: 1rem 2rem ;
+    text-align: left;
+    width: 100%;
+    
+    li{
+      color: $light;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid #0000004f;
+      text-align: center;
+      a{
+        text-decoration: none;
+        font-size: large;
+        color: $light;   
+      }
+    }
+  }
+}
+
+
+
+
 .title-admin{
   margin: 1rem 0;
   font-size: 2rem;
@@ -514,34 +567,58 @@ $gray: #c4ccde;
 }
 
 .cardo{
-  display: grid;
-  grid: 200px / auto auto auto auto;
-
-  align-items: center;
-  height: auto;
-  margin: 1rem;
+  margin: 0 2rem;
   font-size: 1rem;
-  text-align: left;
-  border: 2px solid powderblue;
-  padding: 0.5rem;
+
+  ul{
+    display: grid;
+    grid-template-rows: repeat(4, 1fr); /* You can adjust the number of rows as needed */
+    grid-template-columns: repeat(4, 1fr); /* You can adjust the number of columns as needed */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    margin: 1rem;
+    font-size: 1rem;
+    list-style-type: none;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    li{
+      width: 200px;
+      height: 200px;
+    }
+  }
+  
 }
 
 .card-bod{
-  display: grid;
-  grid: auto;
-  place-items: start center;
-  height: 130px;
-  width: 50%;
-  margin: 1rem;
+  width: 100%;
+  text-decoration: none;
   font-size: 1rem;
   text-align: center;
-  align-items: center;
-  border: 1px solid powderblue;
-  padding: 1rem;
+  box-shadow: 1px 2px 10px #888888;
+  
+  
+  img{
+    margin-top:2rem;
+  }
 }
 
 .imgusu{
 
   height: auto;
   width: 100px;
+}
+
+//ADMINISTRARDOR PAGE USUARIO
+
+.addusu{
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}  
+
+.flexadmin{
+  display: flex;
+  flex-wrap: nowrap;
+
 }

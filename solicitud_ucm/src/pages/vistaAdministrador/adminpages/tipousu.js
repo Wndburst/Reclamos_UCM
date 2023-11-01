@@ -1,31 +1,25 @@
-import '../../App.scss';
-import React from 'react'
-import { Link } from 'react-router-dom'
-import area from '../../img/admin/area.png'
-import sede from '../../img/admin/sede.png'
-import categoria from '../../img/admin/lista.png'
-import carrera from '../../img/admin/carrera.png'
-import faq from '../../img/admin/faq.png'
-import tipo from '../../img/admin/tipousu.png'
-import facultad from '../../img/admin/facultad.png'
-import imgusu from '../../img/admin/usuario.png'
+import "../../../App.scss";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
+import NavBar from "../../../components/Admin/NavBarAdmin";
+import SideBar from "../../../components/Admin/SideBar";
+import CompShowTipoUsu from "../../../components/Admin/ShowTipoUsuario";
 
-export default function AddTipousu () {
+export default function Addfaq() {
   return (
-        <h2 className='title-admin'>Tipo de Usuarios
-        <div class="cardo" >
-          <div class="card-bod">
-            <img className="imgusu" src={imgusu} alt=''/> 
-            <Link to="/usu">FAQ</Link>
-          </div>
+    <div>
+      <NavBar />
+      <div className="flexadmin">
+        <SideBar />
+        <div className="addusu">
+          <h2 className="title-admin">Tipos de Usuario</h2>
 
-          <div class="card-bod">
-            <img className="imgusu" src={faq} alt=''/> 
-            <a href="#" class="btn btn-primary">FAQ</a>
+          <div className="tablausu">
+            <CompShowTipoUsu />
           </div>
+        </div>
       </div>
-      </h2>
-    
-  )
+    </div>
+  );
 }

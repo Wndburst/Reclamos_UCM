@@ -23,6 +23,7 @@ export default function Navitems() {
         <span className="bar"></span>
       </button>
       <ul>
+        <li><Link to="/administrador">Inicio</Link></li>
         <li><Link  onClick={handleDelete}>Cerrar sesion</Link></li>
       </ul>
     </div>

@@ -1,20 +1,26 @@
-import React from 'react'
-import reclamosdata from '../../json/reclamos.json'
-import Datos from '../../components/Datos'
-import SideBar from '../../components/SideBar';
+// home.js
+import React, { useState } from 'react';
+import reclamosdata from '../../json/reclamos.json';
+import Datos from '../../components/Estudiante/Datos';
+import SideBar from '../../components/Estudiante/SideBar';
 import '../../App.scss';
-import Graphs from '../../components/Graphs';
-import NavBar from '../../components/NavBar';
+import NavBar from '../../components/Estudiante/NavBar';
 
-export default function () {
+export default function Home() {
+  const [filtro, setFiltro] = useState('');
+
+  const handleFilterChange = (filtro) => {
+    setFiltro(filtro);
+  };
+
   return (
     <div>
-      <NavBar/>
+      <NavBar />
       <h1 className='lsreclamos'>Lista de reclamos</h1>
       <div className='flex'>
-        <Datos reclamos={reclamosdata.reclamos} />  
+        <SideBar onFilterChange={handleFilterChange} />
+        <Datos filtro={filtro} />
       </div>
-
     </div>
-  )
+  );
 }

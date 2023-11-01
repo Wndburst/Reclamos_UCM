@@ -19,7 +19,6 @@ function Login(){
     axios.post('http://localhost:8000/login', values) 
       .then(res => {
         if(res.data.Status === "Success"){
-          // Ahora, después de iniciar sesión con éxito, consultamos el tipo de usuario
           axios.get('http://localhost:8000/', {
             headers: {
               Authorization: `Bearer ${res.data.token}`,

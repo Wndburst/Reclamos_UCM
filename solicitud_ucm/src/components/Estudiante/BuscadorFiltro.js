@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import ListaFrecuentes from './Lista-frecuentes';
+import React, { useState } from "react";
+import ListaFrecuentes from "./Lista-frecuentes";
 
 function PreguntasFrecuentes() {
-  const [filter, setFilter] = useState('');
-  
+  const [filter, setFilter] = useState("");
+
   const handleFilterChange = (event) => {
     setFilter(event.target.value.toUpperCase());
   };
@@ -16,7 +16,7 @@ function PreguntasFrecuentes() {
         onChange={handleFilterChange}
         placeholder="¿Que buscas?"
         title="¿Que buscas?"
-      /> 
+      />
 
       <div>
         <ListaFrecuentes filter={filter} />

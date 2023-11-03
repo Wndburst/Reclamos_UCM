@@ -1,47 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import faqsData from '../../json/FAQ.json';
+import React, { useState, useEffect } from "react";
 
-function ListaFrecuentes({ filter }) {
-  const [faqs, setFaqs] = useState([]);
-  const [expandedItems, setExpandedItems] = useState({});
+function ListaFrecuentes() {
+  const [faqData, setFaqData] = useState([]);
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   useEffect(() => {
-    setFaqs(faqsData.FAQ);
+    // Realizar la solicitud al backend cuando el componente se carga
+    fetch("http://localhost:8000/Showfaq")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Datos recibidos del backend:", data);
+        setFaqData(data);
+      })
+      .catch((error) =>
+        console.error("Error al obtener preguntas frecuentes:", error)
+      );
   }, []);
 
-  const toggleItem = (index) => {
-    setExpandedItems((prevExpandedItems) => ({
-      ...prevExpandedItems,
-      [index]: !prevExpandedItems[index],
-    }));
+  console.log("Datos en el estado:", faqData);
+
+  const toggleAnswer = (faq) => {
+    if (selectedQuestion && selectedQuestion.ID_FAQ === faq.ID_FAQ) {
+      setSelectedQuestion(null);
+    } else {
+      setSelectedQuestion(faq);
+    }
   };
 
-  const filteredFaqs = faqs.filter(faq =>
-    faq.question.toUpperCase().includes(filter)
-  );
-
   return (
-<div>
-  <ul>
-    {filteredFaqs.map((faq, index) => (
-      <li key={index}>
-        <button
-          style={{ 
-            border: 'none', 
-            background: 'none', 
-            cursor: 'pointer', 
-            padding: 0,
-            margin: 0,
-          }}
-          onClick={() => toggleItem(index)}
-        >
-          <h3>{faq.question}</h3>
-        </button>
-        {expandedItems[index] && <p>{faq.answer}</p>}
-      </li>
-    ))}
-  </ul>
-</div>
+    <div>
+      <ul>
+        {faqData.map((faq) => (
+          <li key={faq.ID_FAQ} onClick={() => toggleAnswer(faq)}>
+            <h5>{faq.PREGUNTAS_FAQ}</h5>
+            {selectedQuestion && selectedQuestion.ID_FAQ === faq.ID_FAQ && (
+              <div className="respuesta-faq-display">{faq.RESPUESTA_FAQ}</div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

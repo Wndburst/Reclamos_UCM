@@ -13,12 +13,19 @@ app.use(cors({
     methods: ["GET","POST"],
     credentials:true,
     allowedHeaders: ["Content-Type", "Authorization"],
-
 }))
 app.use(express.json())
 
 app.use(cookieParser());
 
+
+db.connect((err) => {
+  if (err) {
+    console.error('Error al conectar a la base de datos:', err);
+  } else {
+    console.log('Conexión exitosa a la base de datos');
+  }
+});
 
 const verifyUser = (req, res, next) => {
     const token = req.cookies.token;
@@ -36,6 +43,7 @@ const verifyUser = (req, res, next) => {
       req.username = decoded.username;
       req.useremail = decoded.useremail;
       req.usertype = decoded.usertype;
+      req.userCarrera = decoded.userCarrera;
   
       next();
     });
@@ -46,7 +54,10 @@ const verifyUser = (req, res, next) => {
 // -- Consulta Login ----
 
 app.post('/login', (req,res) =>{
-    const sql = 'SELECT * FROM ALLNRS_USUARIO WHERE ID_USUARIO = ?'
+
+
+    const sql = 'select U.*, CA.NOMBRE_CARRERA as NOMBRE_CARRERA from ALLNRS_USUARIO U join ALLNRS_CARRERA CA on (CA.ID_CARRERA = U.ID_CARRERA) WHERE ID_USUARIO = ?';
+    
     db.query(sql, parseInt(req.body.rut), (err, data) =>{
         if(err) return res.json({Error: "Error en el servidor de login"})
         if(data.length > 0){
@@ -57,7 +68,8 @@ app.post('/login', (req,res) =>{
                     const username = data[0].NOMBRE_USUARIO + ' ' + data[0].APELLIDO_USUARIO; 
                     const useremail = data[0].CORREO_USUARIO; 
                     const usertype = data[0].ID_TIPO_USUARIO; 
-                    const token = jwt.sign({userid,username,useremail,usertype}, "jwt-secret-key", {expiresIn: '1d'});
+                    const userCarrera = data[0].NOMBRE_CARRERA; 
+                    const token = jwt.sign({userid,username,useremail,usertype,userCarrera}, "jwt-secret-key", {expiresIn: '1d'});
                     res.cookie('token', token, { httpOnly: true });
                     return res.json({Status: "Success"});
 
@@ -77,7 +89,8 @@ app.get('/', verifyUser,(req,res) => {
                     userid: req.userid,
                     username: req.username,
                     useremail: req.useremail,
-                    usertype: req.usertype});
+                    usertype: req.usertype,
+                    userCarrera: req.userCarrera});
 })
 
 
@@ -87,10 +100,20 @@ app.get('/logout', (req,res)=>{
 })
 
 
-app.get('/reclamos', (req, res) => {
-    const sql = 'SELECT R.ID_RECLAMO, R.TITULO_RECLAMO, CA.NOMBRE_CATEGORIA, R.DESCRIPCION_RECLAMO, EST.NOMBRE_ESTADO, DATE_FORMAT(R.FECHA_CREACION_RECLAMO, "%m-%d-%Y") AS FECHA_FORMATEADA  FROM ALLNRS_RECLAMOS R JOIN ALLNRS_ESTADO EST ON (EST.ID_ESTADO = R.ID_ESTADO) JOIN ALLNRS_CATEGORIA CA ON (R.ID_CATEGORIA = CA.ID_CATEGORIA)';
+
+// MOSTRAR RECLAMOS PERFIL
+app.get('/reclamos/:userid', (req, res) => {
+    const { userid } = req.params;
+    const sql = `SELECT R.ID_RECLAMO, U.ID_USUARIO,U.NOMBRE_USUARIO,R.ID_RECLAMO, R.TITULO_RECLAMO, CA.ID_CATEGORIA, CA.NOMBRE_CATEGORIA, R.DESCRIPCION_RECLAMO, EST.NOMBRE_ESTADO, DATE_FORMAT(R.FECHA_CREACION_RECLAMO, "%m-%d-%Y") AS FECHA_FORMATEADA, RES.RESPUESTA, R.ID_VISIBILIDAD
+    FROM ALLNRS_RECLAMOS R 
+      JOIN ALLNRS_USUARIO U ON (U.ID_USUARIO = R.ID_USUARIO)
+      JOIN ALLNRS_ESTADO EST ON (EST.ID_ESTADO = R.ID_ESTADO) 
+        JOIN ALLNRS_CATEGORIA CA ON (R.ID_CATEGORIA = CA.ID_CATEGORIA)
+      JOIN ALLNRS_RESPUESTA RES ON (RES.ID_RESPUESTA = R.ID_RESPUESTA)
+    WHERE U.ID_USUARIO = ?
+    `;
     
-    db.query(sql, (err, result) => {
+    db.query(sql,[userid], (err, result) => {
         if (err) {
             console.error('Error al ejecutar la consulta SQL:', err);
             res.status(500).send('Error interno del servidor');
@@ -100,38 +123,57 @@ app.get('/reclamos', (req, res) => {
     });
 });
 
-
-app.get('/reclamos/:id', (req, res) => {
-    const reclamoId = req.params.id;
-    const sql = `SELECT R.ID_RECLAMO, R.TITULO_RECLAMO, CA.NOMBRE_CATEGORIA, R.DESCRIPCION_RECLAMO, EST.NOMBRE_ESTADO, R.FECHA_CREACION_RECLAMO FROM ALLNRS_RECLAMOS R JOIN ALLNRS_ESTADO EST ON (EST.ID_ESTADO = R.ID_ESTADO) JOIN ALLNRS_CATEGORIA CA ON (R.ID_CATEGORIA = CA.ID_CATEGORIA) WHERE R.ID_RECLAMO = ?`;
+// MOSTRAR RECLAMOS GENERAL
+app.get('/reclamos', (req, res) => {
+  const sql = `SELECT R.ID_RECLAMO,U.NOMBRE_USUARIO,R.ID_RECLAMO, R.TITULO_RECLAMO, CA.ID_CATEGORIA, CA.NOMBRE_CATEGORIA, R.DESCRIPCION_RECLAMO, EST.NOMBRE_ESTADO, DATE_FORMAT(R.FECHA_CREACION_RECLAMO, "%m-%d-%Y") AS FECHA_FORMATEADA, RES.RESPUESTA, R.ID_VISIBILIDAD
+  FROM ALLNRS_RECLAMOS R 
+    JOIN ALLNRS_USUARIO U ON (U.ID_USUARIO = R.ID_USUARIO)
+    JOIN ALLNRS_ESTADO EST ON (EST.ID_ESTADO = R.ID_ESTADO) 
+    JOIN ALLNRS_CATEGORIA CA ON (R.ID_CATEGORIA = CA.ID_CATEGORIA)
+    JOIN ALLNRS_RESPUESTA RES ON (RES.ID_RESPUESTA = R.ID_RESPUESTA)
+  WHERE R.ID_VISIBILIDAD = 1`;
   
-    db.query(sql, [reclamoId], (err, result) => {
+  db.query(sql,(err, result) => {
       if (err) {
-        console.error('Error al ejecutar la consulta SQL:', err);
-        res.status(500).send('Error interno del servidor');
+          console.error('Error al ejecutar la consulta SQL:', err);
+          res.status(500).send('Error interno del servidor');
       } else {
-        if (result.length > 0) {
-          res.json(result[0]); // Devuelve solo el primer resultado (debería haber solo uno)
-        } else {
-          res.status(404).send('Reclamo no encontrado');
-        }
+          res.json(result);
       }
-    });
   });
+});
 
 
 
 
-// Ruta para manejar la creación de reclamo
+
+
+// BORRAR RECLAMO
+app.post('/borrar-reclamo', async (req, res) => {
+  const { idReclamo } = req.body;
+
+  try {
+    // Realiza la operación DELETE en la base de datos
+    await db.query('DELETE FROM ALLNRS_RECLAMOS WHERE ID_RECLAMO = ?', [idReclamo]);
+
+    // Envía una respuesta al cliente (puede ser un simple mensaje de éxito)
+    res.json({ success: true, message: 'Reclamo borrado exitosamente' });
+  } catch (error) {
+    console.error('Error al borrar el reclamo:', error);
+    res.status(500).json({ success: false, message: 'Error al borrar el reclamo' });
+  }
+});
+
+
+
+
+// CREAR RECLAMO
 app.post('/crear-reclamo', (req, res) => {
-  const { titulo, descripcion, visibilidad, categoria } = req.body;
+  const { userid,titulo, descripcion, visibilidad, categoria } = req.body;
 
-  console.log(titulo, descripcion, visibilidad, categoria )
-  // Consulta SQL para insertar un nuevo reclamo
-  const sql = `INSERT INTO ALLNRS_RECLAMOS (ID_RECLAMO, TITULO_RECLAMO, DESCRIPCION_RECLAMO, ID_VISIBILIDAD, ID_ESTADO, FECHA_CREACION_RECLAMO, FECHA_UPDATE_RECLAMO, FECHA_FINALIZADO, ID_USUARIO, ID_CATEGORIA, ID_RESPUESTA) VALUES (6, ?, ?, ?, 1, CURRENT_DATE, CURRENT_DATE, NULL, 20759841, ?, NULL)`;
+  const sql = `INSERT INTO ALLNRS_RECLAMOS (ID_RECLAMO, TITULO_RECLAMO, DESCRIPCION_RECLAMO, ID_VISIBILIDAD, ID_ESTADO, FECHA_CREACION_RECLAMO, FECHA_UPDATE_RECLAMO, FECHA_FINALIZADO, ID_USUARIO, ID_CATEGORIA, ID_RESPUESTA) VALUES (6, ?, ?, ?, 1, CURRENT_DATE, CURRENT_DATE, NULL, ?, ?, 1)`;
 
-  // Ejecutar la consulta SQL
-  db.query(sql, [titulo, descripcion, visibilidad, categoria], (err, result) => {
+  db.query(sql, [titulo, descripcion, visibilidad,userid, categoria], (err, result) => {
     if (err) {
       console.error('Error al insertar reclamo:', err);
       res.status(500).json({ error: 'Error al insertar reclamo' });
@@ -142,7 +184,22 @@ app.post('/crear-reclamo', (req, res) => {
   });
 });
 
+app.post('/editar-reclamo', async (req, res) => {
+  const { idReclamo, titulo, descripcion, categoria, visibilidad } = req.body;
+  console.log(req.body)
 
+  try {
+    // Realiza la actualización en la base de datos
+    const query = 'UPDATE ALLNRS_RECLAMOS SET TITULO_RECLAMO=?, DESCRIPCION_RECLAMO=?, ID_CATEGORIA=?, ID_VISIBILIDAD=? WHERE ID_RECLAMO=?';
+    await db.query(query, [titulo, descripcion, categoria, visibilidad, idReclamo]);
+
+    // Puedes enviar una respuesta de éxito si es necesario
+    res.status(200).json({ success: true, message: 'Reclamo actualizado correctamente' });
+  } catch (error) {
+    console.error('Error al actualizar el reclamo:', error);
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+});
 
 
 
@@ -164,20 +221,12 @@ app.get('/ShowUsuarios', (req, res) => {
 });
 
 
-db.connect((err) => {
-  if (err) {
-    console.error('Error al conectar a la base de datos:', err);
-  } else {
-    console.log('Conexión exitosa a la base de datos');
-  }
-});
-
 // CREAR USUARIO
 app.post('/crear-usuario', async (req, res) => {
   const { R_USUARIO, N_USUARIO, A_USUARIO, P_USUARIO, G_USUARIO, ID_CARR, ID_TIPOUSU } = req.body;
+
   // Encriptar la contraseña con bcrypt
   const hashedPassword = await bcrypt.hash(P_USUARIO, 10);
-
   // Ejecutar la consulta SQL
   const sql = `INSERT INTO ALLNRS_USUARIO(ID_USUARIO, NOMBRE_USUARIO, APELLIDO_USUARIO, CORREO_USUARIO,CONTRASENA_USUARIO, GENERACION_USUARIO, ID_CARRERA, ID_TIPO_USUARIO, FECHA_CREACION_USUARIO) VALUES (?, ?, ?, CONCAT(UPPER(NOMBRE_USUARIO), '.', UPPER(APELLIDO_USUARIO), '@ALU.UCM.CL'), ?, ?, ?, ?, Current_date)`;
 
@@ -528,7 +577,7 @@ app.post('/crear-facultad', (req, res) => {
 app.post('/borrar-facultad', (req, res) => {
   const { idFacultad } = req.body;
 
-  const query = `DELETE FROM ALLNRS_FACULTAD WHERE ID_FACULTAD = ${idFacultad}`;
+  const query = `DELETE FROM ALLNRS_FACULTAD WHERE ID_FACULTAD = ${idFacultad}`;  
 
   db.query(query, (error, results) => {
     if (error) {
@@ -709,6 +758,78 @@ app.post('/editar-area', (req, res) => {
     }
   });
 });
+
+/// RECLAMOS ACADEMICO
+app.get('/reclamosAcademico', (req, res) => {
+  const sql = `SELECT R.ID_RECLAMO,U.NOMBRE_USUARIO, R.TITULO_RECLAMO, CA.NOMBRE_CATEGORIA, R.DESCRIPCION_RECLAMO, EST.NOMBRE_ESTADO, DATE_FORMAT(R.FECHA_CREACION_RECLAMO, "%m-%d-%Y") AS FECHA_FORMATEADA ,  RES.RESPUESTA
+  FROM ALLNRS_RECLAMOS R 
+    JOIN ALLNRS_ESTADO EST ON (EST.ID_ESTADO = R.ID_ESTADO) 
+    JOIN ALLNRS_CATEGORIA CA ON (R.ID_CATEGORIA = CA.ID_CATEGORIA) 
+    join ALLNRS_USUARIO U ON (R.ID_USUARIO = U.ID_USUARIO) 
+    JOIN ALLNRS_CARRERA CARRE ON (CARRE.ID_CARRERA = U.ID_CARRERA) 
+      JOIN ALLNRS_RESPUESTA RES ON (RES.ID_RESPUESTA = R.ID_RESPUESTA)
+  WHERE CARRE.ID_CARRERA = 1`
+  db.query(sql, (err, result) => {
+      if (err) {
+          console.error('Error al ejecutar la consulta SQL:', err);
+          res.status(500).send('Error interno del servidor');
+      } else {
+          res.json(result);
+      }
+  });
+});
+
+
+// PRUEBA INFO
+app.get('/AcademicoStatsINFO', (req, res) => {
+  const sql = 'SELECT CATE.NOMBRE_CATEGORIA, COUNT(CATE.NOMBRE_CATEGORIA) FROM ALLNRS_RECLAMOS R JOIN ALLNRS_CATEGORIA CATE ON (R.ID_CATEGORIA = CATE.ID_CATEGORIA) JOIN ALLNRS_USUARIO U ON (R.ID_USUARIO = U.ID_USUARIO) JOIN ALLNRS_CARRERA CARRE ON (CARRE.ID_CARRERA = U.ID_CARRERA) WHERE CARRE.ID_CARRERA = 1 GROUP BY R.ID_CATEGORIA';
+  
+  db.query(sql, (err, result) => {
+      if (err) {
+          console.error('Error al ejecutar la consulta SQL:', err);
+          res.status(500).send('Error interno del servidor');
+      } else {
+          res.json(result);
+      }
+  });
+});
+
+
+// CREAR RESPUESTA RECLAMO
+
+app.post('/respuesta-reclamo', (req, res) => {
+  const {userid,idReclamo,respuesta} = req.body;
+  console.log(req.body)
+  const sql = `INSERT INTO ALLNRS_RESPUESTA (RESPUESTA,ID_USUARIO_RESPUESTA)
+	              VALUES(?,?)`;
+
+  db.query(sql,[respuesta,userid], (err, result) => {
+      if (err) {
+          console.error('Error al ejecutar la consulta SQL:', err);
+          res.status(500).send('Error interno del servidor');
+      } else {
+          const sql2= `UPDATE ALLNRS_RECLAMOS SET ID_RESPUESTA = (SELECT MAX(ID_RESPUESTA) FROM ALLNRS_RESPUESTA)
+                        WHERE ID_RECLAMO = ?`
+
+          db.query(sql2, [idReclamo], (err,result) =>{
+            if(err){
+              console.error('Error al ejecutar la consulta SQL UPDATE:', err);
+            }else{
+              const sql3 = `UPDATE ALLNRS_RECLAMOS SET ID_ESTADO = 3 WHERE ID_RECLAMO = ?`
+              
+              db.query(sql3,[idReclamo], (err,result) => {
+                if(err){
+                  console.error('Error al ejecutar la consulta SQL UPDATE:', err);
+                }else{
+                  res.json(result);
+                }
+              })
+            }
+          })
+      }
+  });
+});
+
 
 
 

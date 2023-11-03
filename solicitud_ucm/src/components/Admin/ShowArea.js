@@ -83,7 +83,7 @@ const CompShowArea = () => {
   return (
     <div>
       <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-2">
-        Lanzar demo de modal
+        CREAR AREA
       </button>
 
       <table className='table' id='example'>

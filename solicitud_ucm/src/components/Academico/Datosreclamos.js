@@ -15,6 +15,7 @@ const Datos = ({ filtro }) => {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [categoria, setCategoria] = useState("");
+  const [respuesta, setRespuesta] = useState("");
   const [visibilidad, setVisibilidad] = useState("");
 
   const [auth, setAuth] = useState(false);
@@ -46,24 +47,34 @@ const Datos = ({ filtro }) => {
 
   const getReclamos = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/reclamos/${userid}`);
+      const response = await axios.get('http://localhost:8000/reclamosAcademico');
       setReclamos(response.data);
     } catch (error) {
       console.error("Error al obtener los reclamos:", error);
     }
   };
-  
 
-  const handleDelete = async (idReclamo) => {
+
+  const respuestReclamo = async () => {
     try {
-      await axios.post("http://localhost:8000/borrar-reclamo", { idReclamo });
-      // Actualizar la lista de facultades después de borrar
-      getReclamos();
+      const data = {
+        userid: userid,
+        idReclamo: reclamoSeleccionado.ID_RECLAMO,
+        respuesta: respuesta,
+      };
+
+      const response = await axios.post('http://localhost:8000/respuesta-reclamo', data);
+
+      // Manejar la respuesta del backend si es necesario
+      window.location.reload();
+      console.log('Respuesta del backend:', response.data);
+
+      // Cerrar el modal o hacer cualquier otra acción después de enviar la respuesta
     } catch (error) {
-      console.error("Error al borrar la facultad:", error);
+      console.error('Error al enviar la respuesta:', error);
     }
   };
-
+  
   const filtrarReclamos = () => {
     if (!filtro) {
       return reclamos;
@@ -90,27 +101,8 @@ const Datos = ({ filtro }) => {
     setVisibilidad(reclamo.ID_VISIBILIDAD);
   };
 
-  const handleSaveChanges = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/editar-reclamo",
-        {
-          idReclamo: reclamoSeleccionado.ID_RECLAMO,
-          titulo,
-          descripcion,
-          categoria: parseInt(categoria),
-          visibilidad,
-        }
-      );
-      console.log(response.data);
-      window.location.reload();
-    } catch (error) {
-      console.error("Error al editar el reclamo:", error);
-    }
-  };
-
   return (
-    <div className="reclamo-general-perfil">
+    <div className="reclamo-general">
       {filtrarReclamos().length === 0 ? (
         <p className="noFoundfilter">No se han encontrado reclamos.</p>
       ) : (
@@ -136,19 +128,11 @@ const Datos = ({ filtro }) => {
                   <button
                     type="button"
                     className="btn btn-danger"
-                    onClick={() => handleDelete(reclamo.ID_RECLAMO)}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#modal-2"
                     onClick={() => abrirModal2(reclamo)}
                   >
-                    <FontAwesomeIcon icon={faPenToSquare} />
+                    Responder
                   </button>
                 </div>
               </div>
@@ -242,7 +226,7 @@ const Datos = ({ filtro }) => {
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">
-                Detalles del reclamo
+                Responder reclamo
               </h5>
               <button
                 type="button"
@@ -254,53 +238,31 @@ const Datos = ({ filtro }) => {
             <div class="modal-body">
               {reclamoSeleccionado && (
                 <>
-                  <div className="mb-3">
-                    <label htmlFor="newNombre" className="form-label">
-                      Nuevo Titulo Reclamo
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="newNombre"
-                      value={titulo}
-                      onChange={(e) => setTitulo(e.target.value)}
-                    />
+                  <h6>Titulo:</h6>
+                  <div className="form-control">
+                  {reclamoSeleccionado.TITULO_RECLAMO}
                   </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="newNombre" className="form-label">
-                      Nueva descripcion
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="newNombre"
-                      value={descripcion}
-                      onChange={(e) => setDescripcion(e.target.value)}
-                    />
+                  <p> </p>
+                  <h6>Estudiante:</h6>
+                  <div className="form-control">
+                    {reclamoSeleccionado.NOMBRE_USUARIO}
+                  </div>
+                  <p> </p>
+                  <h6>Descripción:</h6>
+                  <div className="form-control">
+                    {reclamoSeleccionado.DESCRIPCION_RECLAMO}
                   </div>
                   <div className="mb-3">
+                     <p> </p>
                     <label htmlFor="newNombre" className="form-label">
-                      Nueva categoria
+                      Responder 
                     </label>
                     <input
                       type="text"
                       className="form-control"
                       id="newNombre"
-                      value={categoria}
-                      onChange={(e) => setCategoria(e.target.value)}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="newNombre" className="form-label">
-                      Visibilidad
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="newNombre"
-                      value={visibilidad}
-                      onChange={(e) => setVisibilidad(e.target.value)}
+                      value={respuesta}
+                      onChange={(e) => setRespuesta(e.target.value)}
                     />
                   </div>
                 </>
@@ -317,7 +279,7 @@ const Datos = ({ filtro }) => {
               <button
                 type="button"
                 class="btn btn-primary"
-                onClick={handleSaveChanges}
+                onClick={respuestReclamo}
               >
                 Guardar cambios
               </button>

@@ -1,11 +1,12 @@
 // sidebar.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function SideBar({ onFilterChange }) {
   const [filtro, setFiltro] = useState("");
 
   const handleInputChange = (e) => {
     const nuevoFiltro = e.target.value;
+
     setFiltro(nuevoFiltro);
 
     if (typeof onFilterChange === "function") {
@@ -13,22 +14,20 @@ export default function SideBar({ onFilterChange }) {
     }
   };
 
+  useEffect(() => {
+    console.log(filtro)
+  },);
+
   return (
     <div className="sidebar-estudiante">
-      <p className="title">Filtrar</p>
-      <form>
+      <h4 className="title">Filtrar</h4>
+      <div className="filterHome">
         <input
-          placeholder="Buscar"
+          placeholder="Buscar reclamo"
           value={filtro}
           onChange={handleInputChange}
         />
-
-        <p>Area</p>
-        <ul>{/* Opciones del filtro de área */}</ul>
-
-        <p>Otro filtro</p>
-        <ul>{/* Opciones del otro filtro */}</ul>
-      </form>
+        </div>
     </div>
   );
 }

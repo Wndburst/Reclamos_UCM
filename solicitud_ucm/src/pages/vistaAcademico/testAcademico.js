@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import reclamosdata from '../../json/reclamos.json'
-import FPerfilTora from "../../img/perfiltora.jpg"
+import FPerfilTora from "../../img/noperfil.jpg"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import NavBar from '../../components/Academico/NavbarAcademico'
@@ -75,12 +75,7 @@ export default function Academico() {
       </div>
 
       <div className='div-reclamos-academico'>
-          <h2 className='lsreclamos'>Mis reclamos</h2>
           <Datos/>
-      </div>
-      <div className='div-stats-academico'>
-          <h2 className='lsreclamos'>Estadisticas</h2>
-          <Datos2/>
       </div>
 
       </div>

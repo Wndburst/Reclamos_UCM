@@ -18,13 +18,16 @@ $gray: #c4ccde;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-
 }
 .flex-1{
   display: flex;
   justify-content: center;
-  
+}
 
+.flexHome{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 //Barra de arriba
@@ -167,13 +170,12 @@ $gray: #c4ccde;
 //Filtrador
 
 .sidebar-estudiante{
-  height: auto;
   width: 20rem;
   border: 1px solid $gray;
   /*background-color: #01a1dd;*/
   background-color: rgb(0, 85, 169);
-  margin: 0px 1rem;
   margin-bottom: 1rem;
+  
 
   /*rgb(0, 85, 169);*/
   .title{
@@ -181,15 +183,20 @@ $gray: #c4ccde;
     color: $light;
     margin-top: 1rem;
   }
+  .filterHome{
+    display: flex;
+    justify-content: center;
 
-  input{
-    width: 70%;
-    height: 1rem;
-    padding: 1rem;
-    margin: 1rem 2rem;
-    border: 0px solid;
-    border-radius: 10px;
+    input{
+      width: 80%;
+      height: 1rem;
+      padding: 1rem;
+      margin: 1rem 0rem;
+      border: 0px solid;
+      border-radius: 10px;
+    }
   }
+
   p{
     text-align: center;
     color: $light;
@@ -220,10 +227,18 @@ $gray: #c4ccde;
 
 
 
+.lsreclamosacademico{
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-top: 2rem;
+  color: #fff;
+}
 .lsreclamos{
   text-align: center;
   margin-bottom: 2rem;
+  padding-top: 1rem;
   margin-top: 2rem;
+  color: #fff;
 }
 
 .tablareclamos{
@@ -259,9 +274,15 @@ $gray: #c4ccde;
 
 
 /*------------PERFIL-------------*/
+
+.boton-encargado{
+  margin: 0;
+  flex-grow: 1;
+  justify-content: center;
+}
 .flex-reclamos-usuarios{
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: end;
 }
 
@@ -271,8 +292,8 @@ $gray: #c4ccde;
   margin-bottom: 2rem;
 
   .FPerfil{
-    width: 8rem;
-    margin-top: 2rem;
+    width: 12rem;
+    height: 12rem;
   }
   .DPerfil{
     width: 18rem;
@@ -314,6 +335,164 @@ $gray: #c4ccde;
 
 
 // -------------- RECLAMO--------------------
+.filterType{
+  justify-content: center;
+  margin-top: 1rem;
+
+  ul{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    li{
+
+      select{
+        padding: 0;
+        margin: 0;
+        width: 12rem;
+        padding-left: 1rem;
+      }
+    }
+  }
+}
+.bgBr{
+  background-color:rgb(0, 85, 169);
+  margin-bottom: 1rem;
+  width: 80vw;
+  margin-top: 2rem
+}
+.barraFiltradoraHome{
+  width: 100%;
+  padding: 1rem;
+  .inputfilter{
+    display: flex;
+    justify-content: center;
+    input{
+      border: 0;
+      padding: 0;
+      margin: 0;
+      width: 70%;
+      height: 3rem;
+      border: 1px solid gray;
+      padding:1rem;
+      border-radius: 8px;
+    }
+  }
+  }
+
+
+
+.barraFiltradoraAcademico{
+  margin-top: 7.2rem;
+  margin-bottom: 1rem;
+  background-color: rgb(0, 85, 169);
+  height: 15rem;
+
+  ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li{
+      display: flex;
+      justify-content: space-evenly;
+      input{
+        border: 0;
+        padding: 0;
+        margin: 0;
+        width: 70%;
+        height: 2rem;
+        padding:1rem;
+        border-radius: 8px;
+
+      }
+    }
+
+
+  }
+}
+.barraFiltradoraPerfil{
+  margin-top: 7.5rem;
+  margin-bottom: 1rem;
+  background-color: rgb(0, 85, 169);
+  height: 15rem;
+
+  ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li{
+      display: flex;
+      justify-content: space-evenly;
+      input{
+        border: 0;
+        padding: 0;
+        margin: 0;
+        width: 70%;
+        height: 2rem;
+        padding:1rem;
+        border-radius: 8px;
+
+      }
+    }
+
+
+  }
+}
+.barraFiltradora{
+  margin-top: 7.5rem;
+  margin-bottom: 1rem;
+  background-color: rgb(0, 85, 169);
+  height: 10rem;
+
+  ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+
+  li{
+    display: flex;
+    justify-content: space-evenly;
+    input{
+      border: 0;
+      padding: 0;
+      margin: 0;
+      width: 70%;
+      height: 2rem;
+      padding:1rem;
+      border-radius: 8px;
+    }
+  }
+  }
+}
+
+.pagg{
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 1rem;
+  width: 70vw;
+
+  ul{
+    padding: 0;
+    margin: 0;
+
+    li{
+      display: flex;
+      margin-right: 2rem;
+      
+    }
+  }
+
+}
+
+
+
+
 .reclamo-general-perfil{
   box-shadow: 5px 10px 18px #888888;
   width: 70vw;
@@ -335,9 +514,9 @@ $gray: #c4ccde;
 
 
 
-.reclamo-general{
+.reclamo-general-academico{
   box-shadow: 5px 10px 18px #888888;
-  width: 80%;
+  width: 100%;
   
   ul{ 
     list-style-type: none;
@@ -346,6 +525,28 @@ $gray: #c4ccde;
     li{
       padding: 3rem;
       border-bottom: 1px solid gray;
+      h3{
+        margin-bottom: 2rem;
+      }
+    }
+  }
+}
+.reclamo-general{
+  box-shadow: 5px 10px 18px #888888;
+  width: 80vw;
+
+  
+  ul{ 
+    list-style-type: none;
+    padding: 0;
+    text-align: start;
+      
+    li{
+      padding: 3rem;
+      border-bottom: 1px solid gray;
+      :last-child{
+        border: 0;
+      }
       h3{
         margin-bottom: 2rem;
       }
@@ -365,6 +566,11 @@ $gray: #c4ccde;
 
 
 //---------- Preguntas frecuentes -----------------
+.flex-faq{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
 .title-faq{
   margin: 2rem 0;
   font-size: 4rem;
@@ -549,32 +755,38 @@ $gray: #c4ccde;
 
 
 
-.sidebar-admin{
-  height: auto;
+.sidebar-admin {
   width: auto;
   background-color: rgb(0, 85, 169);
 
-  p{
+  p {
     text-align: center;
     color: $light;
     font-weight: 600;
-    padding: 2rem;
+    padding: 1rem;
   }
-  ul{
+
+  ul {
     list-style: none;
-    padding: 1rem 2rem ;
+    padding: 1rem 0rem;
     text-align: left;
-    width: 100%;
-    
-    li{
+    height: 100vh;
+
+    li {
       color: $light;
-      margin-bottom: 3.4rem;
-      border-bottom: 1px solid #0000004f;
       text-align: center;
-      a{
+      border-bottom: 1px solid $light;
+      padding: 1.5rem 0rem;
+
+
+      a {
         text-decoration: none;
         font-size: large;
-        color: $light;   
+        color: $light;
+
+        &:hover {
+          color: rgb(14, 98, 181); /* Reemplaza 'yourHoverColor' con el color deseado */
+        }
       }
     }
   }
@@ -620,7 +832,6 @@ $gray: #c4ccde;
   text-align: center;
   box-shadow: 1px 2px 10px #888888;
   
-  
   img{
     margin-top:2rem;
   }
@@ -651,33 +862,157 @@ $gray: #c4ccde;
 .Academico{
   display: flex;
   flex-wrap: wrap;
-  
+  justify-content:space-evenly
 }
 
 
-.stats{
-  width: auto;
-  text-align: center;
-}
 
-.stats{
-  width: 20rem;
-  text-align: center;
-}
 
 .FPerfilT{
-  width: 8rem;
+  width: 12rem;
+  height: 12rem;
 }
 
-.div-stats-academico{
-  align-items: center;
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: column;
-}
+
 .div-reclamos-academico{
-  align-items: center;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
+  width: 60vw;
 }
+
+
+
+.labelFilter{
+  label{
+    color: #fff;
+    padding-left: 2rem;
+  }
+}
+
+
+// ESTADISTICAS
+.divFecha{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-items: center;
+  .botonFecha{
+    border: 0px;
+    border: 1px solid gray;
+    background-color: #fff;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 8px;
+  }
+}
+
+.principalStats{
+  padding: 0;
+
+  // FECHAS
+  label{
+    font-weight: 400;
+    font-size: 1.2rem;
+  }
+  .fecha{
+    padding: 1rem;
+    width: 8rem;
+    height: 2rem;
+    margin-left: 1rem;
+  }
+
+  // Cartas
+  ul{
+    list-style-type: none;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    li{
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #fff;
+      width: 10rem;
+      height: 10rem;
+
+    }
+
+    .cartaStats1{
+      background-color: #f8cbad;
+      .variableStats{
+        color: #fff;
+      }
+      label{
+        color: #fff;
+      }
+    }
+    .cartaStats2{
+      background-color: #c3e1b5;
+      .variableStats{
+        color: #fff;
+      }
+      label{
+        color: #fff;
+      }
+    }
+    .cartaStats3{
+      background-color: #ddeaf7;
+      .variableStats{
+        color: #fff;
+      }
+      label{
+        color: #fff;
+      }
+    }
+    .cartaStats4{
+      background-color: #ffcac9;
+      .variableStats{
+        color: #fff;
+      }
+      label{
+        color: #fff;
+      }
+    }
+
+  }
+}
+
+.footerStats{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100vw;
+  margin-bottom: 2rem;
+
+
+}
+
+.statCate{
+  width: 25rem;
+  margin: auto;
+}
+.statArea{
+  width: 25rem;
+  margin: auto;
+
+}
+
+
+
+
+.estadisticas-generales{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pieGraph{
+  justify-content: space-between;
+  width: 17rem;
+  margin-bottom: 5rem;
+}
+

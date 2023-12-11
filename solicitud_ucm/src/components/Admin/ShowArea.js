@@ -12,6 +12,7 @@ const CompShowArea = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedArea, setSelectedArea] = useState({});
   const [editedNombre, setEditedNombre] = useState('');
+  const [editedEncargado, seteditedEncargado] = useState('');
   const [newAreaNombre, setNewAreaNombre] = useState('');
   const [tuNuevoID, setTuNuevoID] = useState(''); // Agrega un estado para almacenar el nuevo ID
 
@@ -41,6 +42,7 @@ const CompShowArea = () => {
   const handleEdit = (area) => {
     setSelectedArea(area);
     setEditedNombre(area.NOMBRE_AREA);
+    seteditedEncargado(area.ENCARGADO);
     setModalOpen(true);
   };
 
@@ -49,6 +51,7 @@ const CompShowArea = () => {
       await axios.post('http://localhost:8000/editar-area', {
         idArea: selectedArea.ID_AREA,
         nuevoNombre: editedNombre,
+        nuevoEncargado: editedEncargado,
       });
       setModalOpen(false);
       // Actualizar la lista de áreas después de editar
@@ -91,6 +94,7 @@ const CompShowArea = () => {
           <tr>
             <th>ID_AREA</th>
             <th>NOMBRE_AREA</th>
+            <th>Encargado</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -99,6 +103,7 @@ const CompShowArea = () => {
             <tr key={area.ID_AREA}>
               <td>{area.ID_AREA}</td>
               <td>{area.NOMBRE_AREA}</td>
+              <td>{area.ENCARGADO}</td>
               <td>
                 <button type="button" className="btn btn-danger " onClick={() => handleDelete(area.ID_AREA)}>
                   <FontAwesomeIcon icon={faTrash} />
@@ -137,6 +142,16 @@ const CompShowArea = () => {
                     id="editedNombre"
                     value={editedNombre}
                     onChange={(e) => setEditedNombre(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="editEncargado" className="form-label">Nuevo Nombre</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="editEncargado"
+                    value={editedEncargado}
+                    onChange={(e) => seteditedEncargado(e.target.value)}
                   />
                 </div>
               </form>

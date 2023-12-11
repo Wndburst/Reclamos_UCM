@@ -11,7 +11,7 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
   //ACADEMICO
   import Academico from './pages/vistaAcademico/testAcademico';
-
+  import Stats from './pages/vistaAcademico/stats';
   //Admin
   import Administrador from './pages/vistaAdministrador/administrador';
   import Usu from './pages/vistaAdministrador/adminpages/usu';
@@ -43,6 +43,8 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
             {/*ACADEMICO*/}
             <Route path='/academico' element={<Academico />} />
+            <Route path='/stats' element={< Stats/>} />
+
 
             {/*ADMINISTRADOR*/}
             <Route path='/administrador' element={<Administrador />} />

@@ -35,11 +35,14 @@ function Login() {
                 case 1:
                   navigate("/");
                   break;
-                case 2:
+                case 2 :
+                  navigate("/academico");
+                  break;
+                case 3 :
                   navigate("/academico");
                   break;
                 case 5:
-                  navigate("/administrador");
+                  navigate("/usu");
                   break;
               }
             })

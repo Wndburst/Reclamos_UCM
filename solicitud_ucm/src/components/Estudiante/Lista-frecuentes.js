@@ -28,7 +28,8 @@ function ListaFrecuentes() {
   };
 
   return (
-    <div>
+    <div className="flex-faq">
+      <h2 className="title-faq">Preguntas Frecuentes</h2> 
       <ul>
         {faqData.map((faq) => (
           <li key={faq.ID_FAQ} onClick={() => toggleAnswer(faq)}>

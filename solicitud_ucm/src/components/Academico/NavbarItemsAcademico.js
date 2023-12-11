@@ -15,6 +15,15 @@ export default function Navitems() {
         <span className="bar"></span>
         <span className="bar"></span>
       </button>
+      
+      <ul>
+        <li>
+          <Link to="/stats">Estadisticas</Link>
+        </li>
+        <li>
+          <Link to="/academico">Inicio</Link>
+        </li>
+      </ul>
     </div>
   );
 }

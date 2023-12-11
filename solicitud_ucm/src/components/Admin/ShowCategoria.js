@@ -17,6 +17,20 @@ const CompShowCategoria = () => {
   const [newCategoriaNombre, setNewCategoriaNombre] = useState('');
   const [newID, setNewID] = useState('');
 
+
+  const [areas, setAreas] = useState([]);
+  const [idArea, setIdArea] = useState('');
+  
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/ShowAreas")
+      .then((res) => {
+        setAreas(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+
   useEffect(() => {
     getCategorias();
   }, []);
@@ -187,13 +201,18 @@ const CompShowCategoria = () => {
 
                 <div className="mb-3">
                   <label htmlFor="newNombre" className="form-label">ID Area</label>
-                  <input
+                  <select
                     type="text"
                     className="form-control"
                     id="newNombre"
                     value={newID}
                     onChange={(e) => setNewID(e.target.value)}
-                  />
+                  >
+                    <option value="" disabled>Selecciona una categoría</option>
+                      {areas.map(areas => (
+                    <option key={areas.ID_AREA} value={areas.ID_AREA}>{areas.NOMBRE_AREA}</option>
+                        ))}
+                  </select>
                 </div>
 
               </form>

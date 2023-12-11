@@ -1,0 +1,14 @@
+Integrantes
+gonzalo.avendano@alu.ucm.cl;thomas.riffo@alu.ucm.cl;alfonso.lara@alu.ucm.cl;claudio.lazo@alu.ucm.cl;cristian.nunez@alu.ucm.cl;sebastian.salinas.01@alu.ucm.cl
+
+-------------------------------------------------------------
+
+Enlace video diagrama de caso de uso
+
+https://www.youtube.com/watch?v=XXQvyPd0QKw
+
+-------------------------------------------------------------
+
+Enlace video Diagrama de clase
+
+https://www.youtube.com/watch?v=VRTF2qz_V-o

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Datos from "../../components/Estudiante/Datos";
-import FPerfil from "../../img/perfil.jpg";
+import FPerfil from "../../img/noperfil.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavBar from "../../components/Estudiante/NavBar";
+import Swal from 'sweetalert2';
+
 axios.defaults.withCredentials = true;
 
 export default function Profile() {
@@ -15,6 +17,40 @@ export default function Profile() {
   const [usertype, setUserType] = useState("");
   const [userCarrera, setUserCarrera] = useState("");
   const navigate = useNavigate();
+
+  const [categorias, setCategorias] = useState([]);
+  const [idCategoria, setIdCategoria] = useState('');
+
+  const [areas, setAreas] = useState([]);
+  const [idArea, setIdArea] = useState('');
+  
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/ShowAreas")
+      .then((res) => {
+        setAreas(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/ShowCategoria2?area=${idArea}`)
+      .then((res) => {
+        setCategorias(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [idArea]);
+
+
+  const handleCategoriaChange = (event) => {
+    setIdCategoria(event.target.value);
+  };
+
+  const handleAreaChange = (event) => {
+    setIdArea(event.target.value);
+  };
 
   useEffect(() => {
     axios
@@ -30,7 +66,7 @@ export default function Profile() {
           setUserCarrera(res.data.userCarrera);
         } else {
           setAuth(false);
-          setMessage(res.data.Error);
+          navigate('/login')
         }
       })
       .catch((err) => console.log(err));
@@ -49,6 +85,7 @@ export default function Profile() {
     const tituloReclamo = document.getElementById('tituloReclamo').value;
     const descripcionReclamo = document.getElementById('descripcionReclamo').value;
     const idVisibilidad = document.getElementById('idVisibilidad').value;
+    const idArea = document.getElementById('idArea').value;
     const idCategoria = document.getElementById('idCategoria').value;
   
     try {
@@ -57,12 +94,27 @@ export default function Profile() {
         titulo: tituloReclamo,
         descripcion: descripcionReclamo,
         visibilidad: idVisibilidad,
+        area: idArea,
         categoria: idCategoria,
       });
   
       // Aquí puedes manejar la respuesta del servidor, si es necesario
       console.log(response.data);
-      window.location.reload()
+
+      setTimeout(() => {
+        // Mostrar notificación de éxito después de 2 segundos
+        Swal.fire({
+          icon: 'success',
+          title: 'Reclamo creado con éxito',
+          showConfirmButton: false,
+          timer: 1500, // Oculta automáticamente después de 1.5 segundos
+        });
+      }, 1000);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+
     } catch (error) {
       console.error(error);
     }
@@ -100,10 +152,10 @@ export default function Profile() {
           </div>
 
           <div>
-            <h2 className="lsreclamos">Mis reclamos</h2>
             <Datos />
           </div>
 
+          {/* MODAL DE CREAR RECLAMO*/}
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -129,12 +181,31 @@ export default function Profile() {
                       <textarea class="form-control" id="descripcionReclamo" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
-                      <label for="idVisibilidad" class="form-label">ID de visibilidad</label>
-                      <input type="text" class="form-control" id="idVisibilidad" />
+                      <label for="idVisibilidad" class="form-label">Visibilidad</label>
+                      <select class="form-select" id="idVisibilidad">
+                        <option value="1">Público</option>
+                        <option value="2">Privado</option>
+                      </select>
                     </div>
-                    <div class="mb-3">
-                      <label for="idCategoria" class="form-label">ID de categoría</label>
-                      <input type="text" class="form-control" id="idCategoria" />
+
+                    <div className="mb-3">
+                      <label htmlFor="idArea" className="form-label">AREA</label>
+                      <select className="form-control" id="idArea" value={idArea} onChange={handleAreaChange}>
+                        <option value="" disabled>Selecciona un Area</option>
+                        {areas.map(areas => (
+                          <option key={areas.ID_AREA} value={areas.ID_AREA}>{areas.NOMBRE_AREA}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="mb-3">
+                      <label htmlFor="idCategoria" className="form-label">CATEGORIA</label>
+                      <select className="form-control" id="idCategoria" value={idCategoria} onChange={handleCategoriaChange}>
+                        <option value="" disabled>Selecciona una categoría</option>
+                        {categorias.map(categoria => (
+                          <option key={categoria.ID_CATEGORIA} value={categoria.ID_CATEGORIA}>{categoria.NOMBRE_CATEGORIA}</option>
+                        ))}
+                      </select>
                     </div>
                   </form>
                 </div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { faUsers} from "@fortawesome/free-solid-svg-icons";
 
 export default function SideBar() {
   return (

@@ -16,9 +16,12 @@
     "datatables.net": "^1.13.6",
     "jquery": "^3.7.1",
     "react": "^18.2.0",
+    "react-datepicker": "^4.24.0",
     "react-dom": "^18.2.0",
+    "react-paginate": "^8.2.0",
     "react-router-dom": "^6.16.0",
     "sass": "^1.65.1",
+    "sweetalert2": "^11.10.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -6,6 +6,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'datatables.net/js/jquery.dataTables.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash  } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2';
 const CompShowUsu = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -32,7 +33,7 @@ const CompShowUsu = () => {
 
   const getUsuarios = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/ShowUsuarios');
+      const response = await axios.get('http://localhost:8000/api/ShowUsuarios');
       setUsuarios(response.data);
     } catch (error) {
       console.error('Error al obtener los usuarios:', error);
@@ -41,9 +42,33 @@ const CompShowUsu = () => {
 
   const handleDelete = async (idUsuario) => {
     try {
-      await axios.post('http://localhost:8000/borrar-usuario', { idUsuario });
-      // Actualizar la lista de usuarios después de borrar
-      getUsuarios();
+      const result = await Swal.fire({
+        title: "¿Deseas eliminar el usuario?",
+        text: "No podrás volver a ver este usuario.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, bórralo",
+      });
+
+      if (result.isConfirmed) {
+        // El usuario confirmó, procedemos con la eliminación del reclamo
+        await axios.post('http://localhost:8000/api/borrar-usuario', { idUsuario });
+  
+        // Muestra la alerta de éxito después de borrar el reclamo
+        setTimeout(() => {
+          // Mostrar notificación de éxito después de 2 segundos
+          Swal.fire({
+            title: "Eliminado",
+            text: "El usuario ha sido eliminado.",
+            icon: "success",
+          });
+        }, 1000);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
     } catch (error) {
       console.error('Error al borrar el usuario:', error);
     }
@@ -62,7 +87,7 @@ const CompShowUsu = () => {
 
   const handleSaveChanges = async () => {
     try {
-      await axios.post('http://localhost:8000/editar-usuario', {
+      await axios.post('http://localhost:8000/api/editar-usuario', {
         idUsuario: selectedUsuario.ID_USUARIO,
         nuevoNombreUsuario: editedNombreUsuario,
         nuevoApellidoUsuario: editedApellidoUsuario,
@@ -71,9 +96,17 @@ const CompShowUsu = () => {
         nuevoIdCarrera: editedIdCarrera,
         nuevoIdTipoUsuario: editedIdTipoUsuario,
       });
-      setModalOpen(false);
-      // Actualizar la lista de usuarios después de editar
-      getUsuarios();
+      setTimeout(() => {
+        // Mostrar notificación de éxito después de 2 segundos
+        Swal.fire({
+          title: "Actualizado",
+          text: "El usuario ha sido Actualizado correctamente.",
+          icon: "success",
+        });
+      }, 1000);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.error('Error al editar el usuario:', error);
     }
@@ -82,7 +115,7 @@ const CompShowUsu = () => {
   const handleCreateUsuario = async () => {
     try {
       // Enviar tanto el ID como el nombre del área al backend
-      await axios.post('http://localhost:8000/crear-usuario', {
+      await axios.post('http://localhost:8000/api/crear-usuario', {
         R_USUARIO: rutUsuario,
         N_USUARIO: nombreUsuario,
         A_USUARIO: apellidoUsuario,
@@ -92,11 +125,28 @@ const CompShowUsu = () => {
         ID_TIPOUSU: idTipoUsu
       });
 
-      setModalOpen(false);
+      //setModalOpen(false);
       // Actualizar la lista de áreas después de crear
-      getUsuarios();
+      setTimeout(() => {
+        // Mostrar notificación de éxito después de 2 segundos
+        Swal.fire({
+          icon: 'success',
+          title: 'Usuario creado con éxito',
+          showConfirmButton: false,
+          timer: 1500, // Oculta automáticamente después de 1.5 segundos
+        });
+      }, 1000);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
-      console.error('Error al crear el área:', error);
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.error || 'Error desconocido',
+          showConfirmButton: false,
+          timer: 1500, // Oculta automáticamente después de 1.5 segundos
+        });
     }
   };
 
@@ -152,7 +202,7 @@ const CompShowUsu = () => {
         </tbody>
       </table>
 
-      {/* Modal */}
+      {/* Modal  EDITAR */}
       <div className={`modal fade ${modalOpen ? 'show' : ''}`} id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden={!modalOpen}>
         <div className="modal-dialog">
           <div className="modal-content">
@@ -233,7 +283,7 @@ const CompShowUsu = () => {
       </div>
 
 
-      {/* Modal 2 */}
+      {/* Modal  CREAR 2 */}
       <div className="modal fade" id="modal-2" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden={!modalOpen}>
         <div className="modal-dialog">
           <div className="modal-content">
@@ -244,71 +294,71 @@ const CompShowUsu = () => {
             <div className="modal-body">
               <form>
               <div className="mb-3">
-                  <label htmlFor="newNombre" className="form-label">RUT</label>
+                  <label htmlFor="RUT" className="form-label">RUT</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="newNombre"
+                    id="RUT"
                     value={rutUsuario}
-                    onChange={(e) => setNewRutUsuario(e.target.value)}
+                    onChange={(e) => setNewRutUsuario(e.target.value.replace(/\D/g, '').slice(0, 8))}
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="newNombre" className="form-label">Nombre</label>
+                  <label htmlFor="Nombre" className="form-label">Nombre</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="newNombre"
+                    id="Nombre"
                     value={nombreUsuario}
                     onChange={(e) => setNewNombreUsuario(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="newNombre" className="form-label">Apellido</label>
+                  <label htmlFor="Apellido" className="form-label">Apellido</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="newNombre"
+                    id="Apellido"
                     value={apellidoUsuario}
                     onChange={(e) => setNewApellidoUsuario(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="newNombre" className="form-label">CONTRASEÑA</label>
+                  <label htmlFor="Clave" className="form-label">Clave</label>
                   <input
                     type="password"
                     className="form-control"
-                    id="newNombre"
+                    id="Clave"
                     value={passUsuario}
                     onChange={(e) => setNewPassUsuario(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="newNombre" className="form-label">Generacion</label>
+                  <label htmlFor="Generacion" className="form-label">Generacion</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="newNombre"
+                    id="Generacion"
                     value={gUsuario}
                     onChange={(e) => setNewGUsuario(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="newNombre" className="form-label">ID CARRERA</label>
+                  <label htmlFor="ID CARRERA" className="form-label">ID CARRERA</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="newNombre"
+                    id="ID CARRERA"
                     value={idCarr}
                     onChange={(e) => setNewIdCarr(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="newNombre" className="form-label">ID TIPO USUARIO</label>
+                  <label htmlFor="ID TIPO USUARIO" className="form-label">ID TIPO USUARIO</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="newNombre"
+                    id="ID TIPO USUARIO"
                     value={idTipoUsu}
                     onChange={(e) => setNewIdTipoUsu(e.target.value)}
                   />
@@ -317,7 +367,7 @@ const CompShowUsu = () => {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => setModalOpen(false)}>Cerrar</button>
-              <button type="button" className="btn btn-primary" onClick={handleCreateUsuario}>Crear Sede</button>
+              <button type="button" className="btn btn-primary" onClick={handleCreateUsuario}>Crear usuario</button>
             </div>
           </div>
         </div>

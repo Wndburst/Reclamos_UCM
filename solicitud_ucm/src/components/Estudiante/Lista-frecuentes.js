@@ -6,7 +6,7 @@ function ListaFrecuentes() {
 
   useEffect(() => {
     // Realizar la solicitud al backend cuando el componente se carga
-    fetch("http://localhost:8000/Showfaq")
+    fetch("http://localhost:8000/api/Showfaq")
       .then((response) => response.json())
       .then((data) => {
         console.log("Datos recibidos del backend:", data);

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Datos from "../../components/Estudiante/Datos";
-import FPerfil from "../../img/noperfil.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavBar from "../../components/Estudiante/NavBar";
@@ -10,7 +9,6 @@ axios.defaults.withCredentials = true;
 
 export default function Profile() {
   const [auth, setAuth] = useState(false);
-  const [message, setMessage] = useState("");
   const [userid, setUserId] = useState("");
   const [username, setUserName] = useState("");
   const [useremail, setUserEmail] = useState("");
@@ -89,7 +87,7 @@ export default function Profile() {
     const idCategoria = document.getElementById('idCategoria').value;
   
     try {
-      const response = await axios.post('http://localhost:8000/crear-reclamo', {
+      const response = await axios.post('http://localhost:8000/api/crear-reclamo', {
         userid: userid,
         titulo: tituloReclamo,
         descripcion: descripcionReclamo,
@@ -116,18 +114,26 @@ export default function Profile() {
       }, 2000);
 
     } catch (error) {
-      console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Faltan campos',
+        showConfirmButton: false,
+        timer: 1500, // Oculta automáticamente después de 1.5 segundos
+      });
     }
   };
+
+  const profileImageUrl = `https://imagenes.ucm.cl/foto_alum.php?alu=${userid}`;
+
   return (
     <div>
       <NavBar />
       {auth ? (
         <div className="flex">
-          <div className="CPerfil">
+          <div title="Carta-perfil" className="CPerfil">
             <div className="flex-1">
               <div>
-                <img className="FPerfil" src={FPerfil} alt="" />
+                <img className="FPerfil" src={profileImageUrl} alt="Profile" />
               </div>
 
               <div className="DPerfil">
@@ -141,7 +147,7 @@ export default function Profile() {
               <div className="OPerfil">
                 <ul>
                   <li type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >
-                      Crear reclamo
+                      Crear reclamos
                   </li>
                   <li type="button" class="btn btn-primary" onClick={handleDelete}>
                     Cerrar sesion
@@ -157,11 +163,11 @@ export default function Profile() {
 
           {/* MODAL DE CREAR RECLAMO*/}
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-primary text-white">
                   <h5 class="modal-title" id="exampleModalLabel">
-                    Crear reclamo
+                    Formulario Reclamo
                   </h5>
                   <button
                     type="button"
@@ -173,36 +179,34 @@ export default function Profile() {
                 <div class="modal-body">
                   <form>
                     <div class="mb-3">
-                      <label for="tituloReclamo" class="form-label">Título del reclamo</label>
+                      <label for="tituloReclamo" class="form-label fw-bold">Título del Reclamo</label>
                       <input type="text" class="form-control" id="tituloReclamo" />
                     </div>
                     <div class="mb-3">
-                      <label for="descripcionReclamo" class="form-label">Descripción del reclamo</label>
+                      <label for="descripcionReclamo" class="form-label fw-bold">Descripción del Reclamo</label>
                       <textarea class="form-control" id="descripcionReclamo" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
-                      <label for="idVisibilidad" class="form-label">Visibilidad</label>
+                      <label for="idVisibilidad" class="form-label fw-bold">Visibilidad</label>
                       <select class="form-select" id="idVisibilidad">
                         <option value="1">Público</option>
                         <option value="2">Privado</option>
                       </select>
                     </div>
-
-                    <div className="mb-3">
-                      <label htmlFor="idArea" className="form-label">AREA</label>
-                      <select className="form-control" id="idArea" value={idArea} onChange={handleAreaChange}>
-                        <option value="" disabled>Selecciona un Area</option>
-                        {areas.map(areas => (
+                    <div class="mb-3">
+                      <label for="idArea" class="form-label fw-bold">Área</label>
+                      <select class="form-control" id="idArea" value={idArea} onChange={handleAreaChange}>
+                        <option value="" disabled>Selecciona un Área</option>
+                        {areas.map((areas) => (
                           <option key={areas.ID_AREA} value={areas.ID_AREA}>{areas.NOMBRE_AREA}</option>
                         ))}
                       </select>
                     </div>
-
-                    <div className="mb-3">
-                      <label htmlFor="idCategoria" className="form-label">CATEGORIA</label>
-                      <select className="form-control" id="idCategoria" value={idCategoria} onChange={handleCategoriaChange}>
-                        <option value="" disabled>Selecciona una categoría</option>
-                        {categorias.map(categoria => (
+                    <div class="mb-3">
+                      <label for="idCategoria" class="form-label fw-bold">Categoría</label>
+                      <select class="form-control" id="idCategoria" value={idCategoria} onChange={handleCategoriaChange}>
+                        <option value="" disabled>Selecciona una Categoría</option>
+                        {categorias.map((categoria) => (
                           <option key={categoria.ID_CATEGORIA} value={categoria.ID_CATEGORIA}>{categoria.NOMBRE_CATEGORIA}</option>
                         ))}
                       </select>
@@ -217,7 +221,6 @@ export default function Profile() {
                   >
                     Cerrar
                   </button>
-
                   <button type="button" class="btn btn-primary" onClick={handleCrearReclamo}>
                     Crear reclamo
                   </button>
@@ -225,12 +228,12 @@ export default function Profile() {
               </div>
             </div>
           </div>
+
         </div>
 
         
       ) : (
         <div>
-          <h3>{message}</h3>
           <h3>Inicia sesion :/</h3>
           <Link to="/login">Login</Link>
         </div>

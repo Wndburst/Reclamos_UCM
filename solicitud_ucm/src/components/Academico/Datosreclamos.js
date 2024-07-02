@@ -11,7 +11,7 @@ import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
 import ReactPaginate from 'react-paginate';
 
-const Datos = ({ filtro }) => {
+const Datos = () => {
   const [reclamos, setReclamos] = useState([]);
 
   const [titulo, setTitulo] = useState("");
@@ -184,10 +184,11 @@ const Datos = ({ filtro }) => {
   return (
     <div>
       <div className="barraFiltradoraAcademico">
-        <h2 className="lsreclamosacademico">Reclamos asociados</h2>
+        <h2 title= "Reclamos asociados" className="lsreclamosacademico">Reclamos asociados</h2>
           <ul>
             <li>
             <input
+                title="buscadorReclamo"
                 type="text"
                 placeholder="Buscar reclamo"
                 value={textoFiltro}
@@ -263,12 +264,10 @@ const Datos = ({ filtro }) => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Detalles del reclamo
-              </h5>
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="exampleModalLabel">Detalles del reclamo</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -279,49 +278,53 @@ const Datos = ({ filtro }) => {
             <div class="modal-body">
               {reclamoSeleccionado && (
                 <>
-                  <h6>Titulo:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.TITULO_RECLAMO}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Titulo:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.TITULO_RECLAMO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>Estudiante:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_USUARIO +' '+ reclamoSeleccionado.APELLIDO_USUARIO}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Estudiante:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.NOMBRE_USUARIO + ' ' + reclamoSeleccionado.APELLIDO_USUARIO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>CATEGORIA:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_CATEGORIA}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Categoria:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.NOMBRE_CATEGORIA}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>DESCRIPCION:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.DESCRIPCION_RECLAMO}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Descripcion:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.DESCRIPCION_RECLAMO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>ESTADO:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_ESTADO}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Estado:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.NOMBRE_ESTADO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>RESPUESTA:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.RESPUESTA}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Respuesta:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.RESPUESTA}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>FECHA:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.FECHA_FORMATEADA}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Fecha:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.FECHA_FORMATEADA}
+                    </div>
                   </div>
                 </>
               )}
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                 Cerrar
               </button>
             </div>
@@ -337,9 +340,9 @@ const Datos = ({ filtro }) => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
               <h5 class="modal-title" id="exampleModalLabel">
                 Responder reclamo
               </h5>
@@ -353,28 +356,31 @@ const Datos = ({ filtro }) => {
             <div class="modal-body">
               {reclamoSeleccionado && (
                 <>
-                  <h6>Titulo:</h6>
-                  <div className="form-control">
-                  {reclamoSeleccionado.TITULO_RECLAMO}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Titulo:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.TITULO_RECLAMO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>Estudiante:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_USUARIO +' '+ reclamoSeleccionado.APELLIDO_USUARIO}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Estudiante:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.NOMBRE_USUARIO + ' ' + reclamoSeleccionado.APELLIDO_USUARIO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>Descripción:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.DESCRIPCION_RECLAMO}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Descripción:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.DESCRIPCION_RECLAMO}
+                    </div>
                   </div>
-                  <div className="mb-3">
-                     <p> </p>
-                    <label htmlFor="newNombre" className="form-label">
+                  <div class="mb-3">
+                    <label htmlFor="newNombre" class="form-label fw-bold">
                       Responder 
                     </label>
                     <input
                       type="text"
-                      className="form-control"
+                      class="form-control"
                       id="newNombre"
                       value={respuesta}
                       onChange={(e) => setRespuesta(e.target.value)}
@@ -402,7 +408,8 @@ const Datos = ({ filtro }) => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+
     <div className="pagg"> 
         <ReactPaginate
           pageCount={pageCount}

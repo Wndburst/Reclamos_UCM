@@ -1,19 +1,15 @@
 // datos.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "datatables.net/js/jquery.dataTables.js";
 import Swal from 'sweetalert2';
 import { faPenToSquare, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 import ReactPaginate from 'react-paginate';
 
 
-const Datos = ({ filtro }) => {
+const Datos = () => {
   const [reclamos, setReclamos] = useState([]);
 
 
@@ -108,7 +104,7 @@ const Datos = ({ filtro }) => {
   const getReclamos = async () => {
     try {
       const estado = selectedOptions;
-      const response = await axios.get(`http://localhost:8000/reclamos/${userid}/${estado}`);
+      const response = await axios.get(`http://localhost:8000/api/reclamos/${userid}/${estado}`);
       setReclamos(response.data);
 
     } catch (error) {
@@ -132,7 +128,7 @@ const Datos = ({ filtro }) => {
   
       if (result.isConfirmed) {
         // El usuario confirmó, procedemos con la eliminación del reclamo
-        await axios.post("http://localhost:8000/borrar-reclamo", { idReclamo });
+        await axios.post("http://localhost:8000/api/borrar-reclamo", { idReclamo });
   
         // Muestra la alerta de éxito después de borrar el reclamo
         Swal.fire({
@@ -161,7 +157,7 @@ const Datos = ({ filtro }) => {
     setTitulo(reclamo.TITULO_RECLAMO);
     setDescripcion(reclamo.DESCRIPCION_RECLAMO);
     setIdArea(reclamo.ID_AREA);
-    setCategoria(reclamo.ID_CATEGORIA);
+    setIdCategoria(reclamo.ID_CATEGORIA);
     setVisibilidad(reclamo.ID_VISIBILIDAD);
     setEstadoReclamo(reclamo.ID_ESTADO);
 
@@ -171,7 +167,7 @@ const Datos = ({ filtro }) => {
   const handleSaveChanges = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/editar-reclamo",
+        "http://localhost:8000/api/editar-reclamo",
         {
           idReclamo: reclamoSeleccionado.ID_RECLAMO,
           titulo,
@@ -225,7 +221,7 @@ useEffect(() => {
     <div>
       <div className="barraFiltradoraPerfil">
         <h2 className="lsreclamosacademico">Mis reclamos</h2>
-          <ul>
+          <ul className="filterInicio">
             <li>
             <input
                 type="text"
@@ -267,6 +263,7 @@ useEffect(() => {
                     data-bs-target="#modal-1"
                     onClick={() => abrirModal(reclamo)}
                   >
+                    Visualizar
                     <FontAwesomeIcon icon={faEye} />
                   </button>
                   <button
@@ -274,16 +271,19 @@ useEffect(() => {
                     className="btn btn-danger"
                     onClick={() => handleDelete(reclamo.ID_RECLAMO)}
                   >
+                    Borrar
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
 
                   <button
+                    data-testid="modificar-button"
                     type="button"
                     className="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#modal-2"
                     onClick={() => abrirModal2(reclamo)}
                   >
+                    Modificar
                     <FontAwesomeIcon icon={faPenToSquare} />
                   </button>
                 </div>
@@ -314,9 +314,9 @@ useEffect(() => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
               <h5 class="modal-title" id="exampleModalLabel">
                 Detalles del reclamo
               </h5>
@@ -330,45 +330,53 @@ useEffect(() => {
             <div class="modal-body">
               {reclamoSeleccionado && (
                 <>
-                  
-                  <h6>Titulo:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.TITULO_RECLAMO}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Titulo:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.TITULO_RECLAMO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>Estudiante:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_USUARIO}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Estudiante:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.NOMBRE_USUARIO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>AREA:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_AREA}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Área:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.NOMBRE_AREA}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>CATEGORIA:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_CATEGORIA}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Categoría:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.NOMBRE_CATEGORIA}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>DESCRIPCION:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.DESCRIPCION_RECLAMO}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Descripción:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.DESCRIPCION_RECLAMO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>ESTADO:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_ESTADO}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Estado:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.NOMBRE_ESTADO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>RESPUESTA:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.RESPUESTA}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Respuesta:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.RESPUESTA}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>FECHA:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.FECHA_FORMATEADA}
+                  <div class="mb-3">
+                    <h6 class="fw-bold">Fecha:</h6>
+                    <div class="card p-2">
+                      {reclamoSeleccionado.FECHA_FORMATEADA}
+                    </div>
                   </div>
                 </>
               )}
@@ -395,148 +403,156 @@ useEffect(() => {
         aria-hidden="true"
       >
         <form onSubmit={handleSubmit}>
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                EDITAR RECLAMO
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              {reclamoSeleccionado && (
-                <>
-                  <div className="mb-3">
-                    <label htmlFor="newNombre" className="form-label">
-                      Nuevo Titulo Reclamo
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="newNombre"
-                      value={titulo}
-                      onChange={(e) => setTitulo(e.target.value)}
-                      required
-                    />
-                  </div>
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Editar Reclamo
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                {reclamoSeleccionado && (
+                  <>
+                    <div className="mb-3">
+                      <label htmlFor="newNombre" className="form-label fw-bold">
+                        Nuevo Titulo Reclamo
+                      </label>
+                      <div class="card p-2">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="newNombre"
+                          value={titulo}
+                          onChange={(e) => setTitulo(e.target.value)}
+                          required
+                        />
+                      </div>
+                    </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="newNombre" className="form-label">
-                      Nueva descripcion
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="newNombre"
-                      value={descripcion}
-                      onChange={(e) => setDescripcion(e.target.value)}
-                      required
-                    />
-                  </div>
+                    <div className="mb-3">
+                      <label htmlFor="newDescripcion" className="form-label fw-bold">
+                        Nueva Descripción
+                      </label>
+                      <div class="card p-2">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="newDescripcion"
+                          value={descripcion}
+                          onChange={(e) => setDescripcion(e.target.value)}
+                          required
+                        />
+                      </div>
+                    </div>
 
+                    <div className="mb-3">
+                      <label htmlFor="newArea" className="form-label fw-bold">
+                        Nueva Área
+                      </label>
+                      <div class="card p-2">
+                        <select
+                          type="text"
+                          className="form-control"
+                          id="newArea"
+                          value={idArea}
+                          onChange={handleAreaChange}
+                          required
+                        >
+                          <option value="" disabled>Selecciona un Área</option>
+                          {areas.map(area => (
+                            <option key={area.ID_AREA} value={area.ID_AREA}>{area.NOMBRE_AREA}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="newNombre" className="form-label">
-                      Nueva Area
-                    </label>
-                    <select
-                      type="text"
-                      className="form-control"
-                      id="newNombre"
-                      value={idArea}
-                      onChange={handleAreaChange}
-                      required
-                    >
-                      <option value="" disabled>Selecciona un Area</option>
-                      {areas.map(area => (
-                        <option key={area.ID_AREA} value={area.ID_AREA}>{area.NOMBRE_AREA}</option>
-                      ))}
-                    </select>
-                  </div>
+                    <div className="mb-3">
+                      <label htmlFor="newCategoria" className="form-label fw-bold">
+                        Nueva Categoría
+                      </label>
+                      <div class="card p-2">
+                        <select
+                          type="text"
+                          className="form-control"
+                          id="newCategoria"
+                          value={idCategoria}
+                          onChange={handleCatChange}
+                          required
+                        >
+                          <option value="" disabled>Selecciona una Categoría</option>
+                          {categorias.map(categoria => (
+                            <option key={categoria.ID_CATEGORIA} value={categoria.ID_CATEGORIA}>{categoria.NOMBRE_CATEGORIA}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="newNombre" className="form-label">
-                      Nueva categoria
-                    </label>
-                    <select
-                      type="text"
-                      className="form-control"
-                      id="newNombre"
-                      value={idCategoria}
-                      onChange={handleCatChange}
-                      required
+                    <div className="mb-3">
+                      <label htmlFor="newVisibilidad" className="form-label fw-bold">
+                        Visibilidad
+                      </label>
+                      <div class="card p-2">
+                        <select
+                          className="form-select"
+                          id="newVisibilidad"
+                          value={visibilidad}
+                          onChange={(e) => setVisibilidad(e.target.value)}
+                          required
+                        >
+                          <option value="1">Público</option>
+                          <option value="2">Privado</option>
+                        </select>
+                      </div>
+                    </div>
 
-                    >
-                      <option value="" disabled>Selecciona una categoria</option>
-                      {categorias.map(categoria => (
-                        <option key={categoria.ID_CATEGORIA} value={categoria.ID_CATEGORIA}>{categoria.NOMBRE_CATEGORIA}</option>
-                      ))}
-                    </select>
-                  </div>
-
-
-                  <div className="mb-3">
-                    <label htmlFor="newVisibilidad" className="form-label">
-                      Visibilidad
-                    </label>
-                    <select
-                      className="form-select"
-                      id="newVisibilidad"
-                      value={visibilidad}
-                      onChange={(e) => setVisibilidad(e.target.value)}
-                      required
-                    >
-                      <option value="1">Público</option>
-                      <option value="2">Privado</option>
-                    </select>
-                  </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="newEstado" className="form-label">
-                      Estado
-                    </label>
-                    <select
-                      className="form-select"
-                      id="newEstado"
-                      value={estadoReclamo}
-                      onChange={(e) => setEstadoReclamo(e.target.value)}
-                      required
-                    >
-                      <option value="1">Pendiente</option>
-                      <option value="2">En proceso</option>
-                      <option value="3">Solucionado</option>
-                    </select>
-                  </div>
-                </>
-              )}
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cerrar
-              </button>
-              
-              <button
-                type="submit"
-                class="btn btn-primary"
-                onClick={handleSaveChanges}
-
-              >
-                Guardar cambios
-              </button>
+                    <div className="mb-3">
+                      <label htmlFor="newEstado" className="form-label fw-bold">
+                        Estado
+                      </label>
+                      <div class="card p-2">
+                        <select
+                          className="form-select"
+                          id="newEstado"
+                          value={estadoReclamo}
+                          onChange={(e) => setEstadoReclamo(e.target.value)}
+                          required
+                        >
+                          <option value="1">Pendiente</option>
+                          <option value="2">En proceso</option>
+                          <option value="3">Solucionado</option>
+                        </select>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  onClick={handleSaveChanges}
+                >
+                  Guardar cambios
+                </button>
+              </div>
             </div>
           </div>
-        </div>
         </form>
       </div>
+
     </div>
     </div>
   );

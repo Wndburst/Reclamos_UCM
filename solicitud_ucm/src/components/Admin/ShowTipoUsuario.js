@@ -5,7 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'datatables.net/js/jquery.dataTables.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Swal from 'sweetalert2';
 import { faPenToSquare, faTrash  } from '@fortawesome/free-solid-svg-icons';
+
+
 const CompShowTipoUsu = () => {
   const [tipoUsu, setTipoUsu] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -20,7 +23,7 @@ const CompShowTipoUsu = () => {
 
   const getTipoUsu = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/ShowTipoUsu');
+      const response = await axios.get('http://localhost:8000/api/ShowTipoUsu');
       setTipoUsu(response.data);
     } catch (error) {
       console.error('Error al obtener los tipos de usuarios:', error);
@@ -29,9 +32,33 @@ const CompShowTipoUsu = () => {
 
   const handleDelete = async (idTipoUsuario) => {
     try {
-      await axios.post('http://localhost:8000/borrar-tipo-usuario', { idTipoUsuario });
-      // Actualizar la lista de tipos de usuarios después de borrar
-      getTipoUsu();
+      const result = await Swal.fire({
+        title: "¿Deseas eliminar el tipo de usuario?",
+        text: "No podrás volver a ver este tipo de usuario.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, bórralo",
+      });
+
+      if (result.isConfirmed) {
+        // El usuario confirmó, procedemos con la eliminación del reclamo
+        await axios.post('http://localhost:8000/api/borrar-tipo-usuario', { idTipoUsuario });
+  
+        // Muestra la alerta de éxito después de borrar el reclamo
+        setTimeout(() => {
+          // Mostrar notificación de éxito después de 2 segundos
+          Swal.fire({
+            title: "Eliminado",
+            text: "El usuario ha sido eliminado.",
+            icon: "success",
+          });
+        }, 1000);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
     } catch (error) {
       console.error('Error al borrar el tipo de usuario:', error);
     }
@@ -40,15 +67,30 @@ const CompShowTipoUsu = () => {
   const handleCreateTipoUsuario = async () => {
     try {
       // Enviar tanto el ID como el nombre del área al backend
-      await axios.post('http://localhost:8000/crear-tipo-usuario', {
+      await axios.post('http://localhost:8000/api/crear-tipo-usuario', {
         N_TIPOUSUARIO: newTipoUsuarioNombre
       });
 
-      setModalOpen(false);
-      // Actualizar la lista de áreas después de crear
-      getTipoUsu();
+      setTimeout(() => {
+        // Mostrar notificación de éxito después de 2 segundos
+        Swal.fire({
+          icon: 'success',
+          title: 'Tipo de usuario creado con éxito',
+          showConfirmButton: false,
+          timer: 1500, // Oculta automáticamente después de 1.5 segundos
+        });
+      }, 1000);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
-      console.error('Error al crear el área:', error);
+      Swal.fire({
+        icon: 'error',
+        title: error.response.data.error || 'Error desconocido',
+        showConfirmButton: false,
+        timer: 1500, // Oculta automáticamente después de 1.5 segundos
+      });
     }
   };
 
@@ -60,13 +102,21 @@ const CompShowTipoUsu = () => {
 
   const handleSaveChanges = async () => {
     try {
-      await axios.post('http://localhost:8000/editar-tipo-usuario', {
+      await axios.post('http://localhost:8000/api/editar-tipo-usuario', {
         idTipoUsuario: selectedTipoUsu.ID_TIPO_USUARIO,
         nuevoNombreUsuario: editedNombreUsuario,
       });
-      setModalOpen(false);
-      // Actualizar la lista de tipos de usuarios después de editar
-      getTipoUsu();
+      setTimeout(() => {
+        // Mostrar notificación de éxito después de 2 segundos
+        Swal.fire({
+          title: "Actualizado",
+          text: "Tipo de usuario Actualizado correctamente.",
+          icon: "success",
+        });
+      }, 1000);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.error('Error al editar el tipo de usuario:', error);
     }

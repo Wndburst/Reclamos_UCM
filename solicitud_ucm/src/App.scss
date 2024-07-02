@@ -291,10 +291,7 @@ $gray: #c4ccde;
   margin-top: 7.4rem;
   margin-bottom: 2rem;
 
-  .FPerfil{
-    width: 12rem;
-    height: 12rem;
-  }
+
   .DPerfil{
     width: 18rem;
     height: 12rem;
@@ -333,8 +330,26 @@ $gray: #c4ccde;
   }
 }
 
-
+.FPerfil{
+  width: 10rem;
+  height: 12rem;
+}
 // -------------- RECLAMO--------------------
+.filterInicio{
+  gap: 1rem;
+  select{
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+
+    border: 1px solid gray;
+    border-radius: 5px;
+    height: 3rem;
+  }
+}
+
+
 .filterType{
   justify-content: center;
   margin-top: 1rem;
@@ -398,12 +413,14 @@ $gray: #c4ccde;
     li{
       display: flex;
       justify-content: space-evenly;
+      flex-wrap: wrap;
+      row-gap: 1rem;
       input{
         border: 0;
         padding: 0;
         margin: 0;
         width: 70%;
-        height: 2rem;
+        height: 3rem;
         padding:1rem;
         border-radius: 8px;
 
@@ -426,12 +443,14 @@ $gray: #c4ccde;
     li{
       display: flex;
       justify-content: space-evenly;
+      flex-wrap: wrap;
+      row-gap: 1rem;
       input{
         border: 0;
         padding: 0;
         margin: 0;
         width: 70%;
-        height: 2rem;
+        height: 3rem;
         padding:1rem;
         border-radius: 8px;
 
@@ -619,10 +638,9 @@ $gray: #c4ccde;
 
 
 .loginScreen{
-
-  background-Position: 'center'; 
-  background-Size: 'cover';
-  background-Repeat: 'no-repeat' ;
+  background-position: center; 
+  background-size: cover;
+  background-repeat: no-repeat;
 
   height: 100vh; /* Usa el 100% de la altura de la ventana */
   width: 100vw;
@@ -868,11 +886,6 @@ $gray: #c4ccde;
 
 
 
-.FPerfilT{
-  width: 12rem;
-  height: 12rem;
-}
-
 
 .div-reclamos-academico{
   display: flex;
@@ -886,7 +899,10 @@ $gray: #c4ccde;
 .labelFilter{
   label{
     color: #fff;
-    padding-left: 2rem;
+    display: flex;
+    justify-content: center;
+    height: 1px;
+    font-weight: 600;
   }
 }
 

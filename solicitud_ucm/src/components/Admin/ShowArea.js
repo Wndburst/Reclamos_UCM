@@ -1,11 +1,11 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import $ from 'jquery';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import 'datatables.net/js/jquery.dataTables.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios'
+import React, { useState, useEffect } from 'react'
+import $ from 'jquery'
+//import 'bootstrap/dist/css/bootstrap.min.css'
+//import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+//import 'datatables.net/js/jquery.dataTables.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const CompShowArea = () => {
   const [areas, setAreas] = useState([]);
@@ -25,7 +25,6 @@ const CompShowArea = () => {
       const response = await axios.get('http://localhost:8000/ShowAreas');
       setAreas(response.data);
     } catch (error) {
-      console.error('Error al obtener las áreas:', error);
     }
   };
 

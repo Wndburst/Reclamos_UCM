@@ -46,7 +46,7 @@ export default function Academico() {
       navigate('/login', { replace: true }); 
     }).catch(err => console.log(err));
   }
-
+  const profileImageUrl = `https://imagenes.ucm.cl/foto_alum.php?alu=${userid}`;
   return (
     <div>
       <NavBar/>
@@ -55,7 +55,7 @@ export default function Academico() {
         <div className='CPerfil'>
           <div className='flex-1'>
             <div>
-              <img className="FPerfilT" src={FPerfilTora} alt=''/> 
+              <img className="FPerfil" src={profileImageUrl} alt="Profile" /> 
             </div>
   
             <div className='DPerfil'>

@@ -83,15 +83,16 @@ const Datos = () => {
   const drawChart = (categoriasData, areasData, totalResueltos, totalProceso,totalPendientes,resJefe,resSec,reclamosPorMes) => {
 
 
-    const categories = categoriasData.map((stat) => stat.NOMBRE_CATEGORIA);
-    const counts = categoriasData.map((stat) => stat['COUNT(CATE.NOMBRE_CATEGORIA)']);
-
-    const areas = areasData.map((stat) => stat.NOMBRE_AREA);
-    const countsAreas = areasData.map((stat) => stat['COUNT(A.NOMBRE_AREA)']);
-    
-    const meses = reclamosPorMes.map((stat) => stat.mes);
-    const cantidadReclamosMes = reclamosPorMes.map((stat) => stat.cantidad);
-
+    const categories = categoriasData ? categoriasData.map((stat) => stat.NOMBRE_CATEGORIA) : [];
+    const counts = categoriasData ? categoriasData.map((stat) => stat['COUNT(CATE.NOMBRE_CATEGORIA)']) : [];
+  
+    const areas = areasData ? areasData.map((stat) => stat.NOMBRE_AREA) : [];
+    const countsAreas = areasData ? areasData.map((stat) => stat['COUNT(A.NOMBRE_AREA)']) : [];
+  
+    const meses = reclamosPorMes ? reclamosPorMes.map((stat) => stat.mes) : [];
+    const cantidadReclamosMes = reclamosPorMes ? reclamosPorMes.map((stat) => stat.cantidad) : [];
+  
+  
     console.log(cantidadReclamosMes)
     //const meses = reclamosPorMes ? reclamosPorMes.map((stat) => stat.mes) : [];
     //const reclamos = reclamosPorMes ? reclamosPorMes.map((stat) => stat.cantidad) : [];
@@ -248,7 +249,7 @@ const Datos = () => {
             <label>Fin:</label>
             <DatePicker  className="fecha" selected={fechaFin} onChange={(date) => setFechaFin(date)} />
           </div>
-          <button className='botonFecha' onClick={handleCargarClick}>Cargar</button>
+          <button data-testid="cargar-button" className='botonFecha' onClick={handleCargarClick}>Cargar</button>
         </div>
        
 

@@ -39,7 +39,7 @@ const Datos_inicio = ({ filtro }) => {
     try {
       const estado = selectedOptions;
       const area = idArea;
-      const response = await axios.get(`http://localhost:8000/reclamos-generales/${estado}/${area}`);
+      const response = await axios.get(`http://localhost:8000/api/reclamos-generales/${estado}/${area}`);
       setReclamos(response.data);
     } catch (error) {
       console.error("Error al obtener los reclamos:", error);
@@ -111,7 +111,7 @@ const Datos_inicio = ({ filtro }) => {
           />
         </div>
           <div className="filterType">
-            <ul>
+            <ul className="filterInicio">
               <li>
                 <div className="labelFilter">
                 <label>Seleccionar estado </label><br/>
@@ -179,83 +179,124 @@ const Datos_inicio = ({ filtro }) => {
       }
       {/*MODAL 1*/}
       <div
-      
-        class="modal fade"
-        id="modal-1"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
+      class="modal fade"
+      id="modal-1"
+      tabIndex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Detalles del reclamo
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              {reclamoSeleccionado && (
-                <>
-                  <h6>Titulo:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.TITULO_RECLAMO}
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Detalles del Reclamo
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            {reclamoSeleccionado && (
+              <>
+                <div className="mb-3">
+                  <label htmlFor="tituloReclamo" className="form-label fw-bold">
+                    Título:
+                  </label>
+                  <div class="card p-2">
+                    <div className="form-control" id="tituloReclamo">
+                      {reclamoSeleccionado.TITULO_RECLAMO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>Estudiante:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_USUARIO}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="nombreUsuario" className="form-label fw-bold">
+                    Estudiante:
+                  </label>
+                  <div class="card p-2">
+                    <div className="form-control" id="nombreUsuario">
+                      {reclamoSeleccionado.NOMBRE_USUARIO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>AREA:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_AREA}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="nombreArea" className="form-label fw-bold">
+                    Área:
+                  </label>
+                  <div class="card p-2">
+                    <div className="form-control" id="nombreArea">
+                      {reclamoSeleccionado.NOMBRE_AREA}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>CATEGORIA:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_CATEGORIA}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="nombreCategoria" className="form-label fw-bold">
+                    Categoría:
+                  </label>
+                  <div class="card p-2">
+                    <div className="form-control" id="nombreCategoria">
+                      {reclamoSeleccionado.NOMBRE_CATEGORIA}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>DESCRIPCION:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.DESCRIPCION_RECLAMO}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="descripcionReclamo" className="form-label fw-bold">
+                    Descripción:
+                  </label>
+                  <div class="card p-2">
+                    <div className="form-control" id="descripcionReclamo">
+                      {reclamoSeleccionado.DESCRIPCION_RECLAMO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>ESTADO:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.NOMBRE_ESTADO}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="nombreEstado" className="form-label fw-bold">
+                    Estado:
+                  </label>
+                  <div class="card p-2">
+                    <div className="form-control" id="nombreEstado">
+                      {reclamoSeleccionado.NOMBRE_ESTADO}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>RESPUESTA:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.RESPUESTA}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="respuestaReclamo" className="form-label fw-bold">
+                    Respuesta:
+                  </label>
+                  <div class="card p-2">
+                    <div className="form-control" id="respuestaReclamo">
+                      {reclamoSeleccionado.RESPUESTA}
+                    </div>
                   </div>
-                  <p> </p>
-                  <h6>FECHA:</h6>
-                  <div className="form-control">
-                    {reclamoSeleccionado.FECHA_FORMATEADA}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="fechaFormateada" className="form-label fw-bold">
+                    Fecha:
+                  </label>
+                  <div class="card p-2">
+                    <div className="form-control" id="fechaFormateada">
+                      {reclamoSeleccionado.FECHA_FORMATEADA}
+                    </div>
                   </div>
-                </>
-              )}
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cerrar
-              </button>
-            </div>
+                </div>
+              </>
+            )}
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
           </div>
         </div>
       </div>
+      </div>
+
     </div>
     <div className="pagg"> 
         <ReactPaginate
